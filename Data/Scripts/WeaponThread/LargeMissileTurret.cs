@@ -1,12 +1,13 @@
-﻿using WeaponCore.Support;
-using static WeaponCore.Support.HardPointDefinition.Prediction;
-using static WeaponCore.Support.TargetingDefinition.Threat;
-using static WeaponCore.Support.TargetingDefinition.BlockTypes;
-using static WeaponCore.Support.AmmoTrajectory.GuidanceType;
-using static WeaponCore.Support.ShieldDefinition.ShieldType;
-using static WeaponCore.Support.Shrapnel.ShrapnelShape;
-using static WeaponCore.Support.AreaDamage.AreaEffectType;
-using static WeaponCore.Support.ShapeDefinition.Shapes;
+﻿using System.Diagnostics;
+using static WeaponThread.Session.ShieldDefinition.ShieldType;
+using static WeaponThread.Session.AmmoTrajectory.GuidanceType;
+using static WeaponThread.Session.HardPointDefinition.Prediction;
+using static WeaponThread.Session.AreaDamage.AreaEffectType;
+using static WeaponThread.Session.TargetingDefinition.BlockTypes;
+using static WeaponThread.Session.TargetingDefinition.Threat;
+using static WeaponThread.Session.Shrapnel.ShrapnelShape;
+using static WeaponThread.Session.ShapeDefinition.Shapes;
+using static WeaponThread.Session;
 
 namespace WeaponThread
 {   // Don't edit above this line

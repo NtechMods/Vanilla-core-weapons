@@ -1,0 +1,84 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CategoryClasses>
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_LargeBlocks</DisplayName>
+      <Name>LargeBlocks</Name>
+      <ItemIds>
+       
+        <string>InteriorTurret/LargeInteriorTurret</string>
+        <string>LargeMissileTurret/LargeGatlingTurret</string>
+        <string>LargeMissileTurret/LargeMissileTurret</string>
+       
+        <string>LargeMissileTurret/LargeMissileLauncher</string>
+        
+        
+      </ItemIds>
+    </Category>
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_SmallBlocks</DisplayName>
+      <Name>SmallBlocks</Name>
+      <ItemIds>
+        <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+        
+        <string>LargeGatlingTurret/SmallGatlingTurret</string>
+        <string>LargeMissileTurret/SmallMissileTurret</string>
+        <string>LargeMissileTurret/SmallGatlingGun</string>
+        <string>SmallMissileLauncher/(null)</string>
+        
+      </ItemIds>
+    </Category>
+   
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_ShipWeapons</DisplayName>
+      <Name>ShipWeapons</Name>
+      <SearchBlocks>false</SearchBlocks>
+      <IsShipCategory>true</IsShipCategory>
+      <IsBlockCategory>false</IsBlockCategory>
+      <IsToolCategory>true</IsToolCategory>
+      <ItemIds>
+        <string>LargeMissileTurret/LargeMissileLauncher</string>
+        <string>LargeMissileTurret/SmallGatlingGun</string>
+        <string>SmallMissileLauncher/(null)</string>
+        <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+      </ItemIds>
+    </Category>
+    
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_ShipWeapons</DisplayName>
+      <Name>Weapons</Name>
+      <ItemIds>
+        <string>InteriorTurret/LargeInteriorTurret</string>
+        <string>LargeMissileTurret/LargeGatlingTurret</string>
+        <string>LargeMissileTurret/LargeMissileTurret</string>
+        <string>LargeGatlingTurret/SmallGatlingTurret</string>
+        <string>LargeMissileTurret/SmallMissileTurret</string>
+        <string>LargeMissileTurret/LargeMissileLauncher</string>
+        <string>LargeMissileTurret/SmallGatlingGun</string>
+        <string>SmallMissileLauncher/(null)</string>
+        <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+      </ItemIds>
+    </Category>
+    
+    
+    
+    
+    
+  </CategoryClasses>
+</Definitions>

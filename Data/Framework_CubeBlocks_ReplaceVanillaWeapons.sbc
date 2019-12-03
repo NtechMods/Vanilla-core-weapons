@@ -670,6 +670,7 @@
       <CubeSize>Small</CubeSize>
       <BlockTopology>TriangleMesh</BlockTopology>
       <Size x="1" y="1" z="4" />
+	  <Center x="0" y="0" z="3" />
       <ModelOffset x="0" y="0" z="0" />
       <Model>Models\Cubes\small\VanillaReplace\SmallGatlingGun.mwm</Model>
       <Components>
@@ -683,7 +684,7 @@
       </Components>
       <CriticalComponent Subtype="Computer" Index="0" />
       <MountPoints>
-        <MountPoint Side="Back" StartX="0" StartY="0" EndX="1" EndY="1" />
+        <MountPoint Side="Back" StartX="0" StartY="0" EndX="1" EndY="1" Default="true"/>
         <MountPoint Side="Top" StartX="0" StartY="0" EndX="1" EndY="1" />
         <MountPoint Side="Bottom" StartX="0" StartY="3" EndX="1" EndY="4" />
         <MountPoint Side="Right" StartX="0" StartY="0" EndX="1" EndY="1" />

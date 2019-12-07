@@ -21,7 +21,7 @@
                 <SubtypeId>LargeMissileTurret</SubtypeId>
             </Id>
             <DefaultComponents>
-                <Component BuilderType="MyObjectBuilder_Inventory" SubtypeId="LargeMissileTurret" ForceCreate="true"/>
+                <Component BuilderType="MyObjectBuilder_ModStorageComponent" SubtypeId="LargeMissileTurret" ForceCreate="true"/>
             </DefaultComponents>
         </Container>
 	</EntityContainers> -->

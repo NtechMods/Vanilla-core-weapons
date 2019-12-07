@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+<Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--	<EntityComponents> 
+		<EntityComponent xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
+            <Id>
+                <TypeId>LargeMissileTurret</TypeId>
+                <SubtypeId>LargeMissileTurret</SubtypeId>
+            </Id>
+            <Size x="2.5" y="2.5" z="2.5" />
+        </EntityComponent>
+	</EntityComponents>
+	
+	
+	
+	
+	
+<!--	<EntityContainers>
+		<Container>
+            <Id>
+				<TypeId>MyObjectBuilder_LargeTurretBase</TypeId> 
+                <SubtypeId>LargeMissileTurret</SubtypeId>
+            </Id>
+            <DefaultComponents>
+                <Component BuilderType="MyObjectBuilder_Inventory" SubtypeId="LargeMissileTurret" ForceCreate="true"/>
+            </DefaultComponents>
+        </Container>
+	</EntityContainers> -->
+</Definitions>

@@ -187,7 +187,7 @@ namespace WeaponThread
                     FiringSound = "WepShipSmallMissileShot", // WepShipGatlingShot
                     FiringSoundPerShot = true,
                     ReloadSound = "",
-                    NoAmmoSound = "",
+                    NoAmmoSound = "ArcWepShipGatlingNoAmmo",
                     HardPointRotationSound = "WepTurretGatlingRotate",
                     BarrelRotationSound = "",
                 },

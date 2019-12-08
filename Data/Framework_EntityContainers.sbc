@@ -6,7 +6,7 @@
                 <TypeId>LargeMissileTurret</TypeId>
                 <SubtypeId>LargeMissileTurret</SubtypeId>
             </Id>
-            <Size x="2.5" y="2.5" z="2.5" />
+            <Size x="6.5" y="2.5" z="2.5" />
         </EntityComponent>
 	</EntityComponents>
 	

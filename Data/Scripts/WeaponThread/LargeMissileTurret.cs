@@ -28,7 +28,7 @@ namespace WeaponThread
             {
                 WeaponId = "LargeMissileTurret", // name of weapon in terminal
                 AmmoMagazineId = "Missile200mm",
-                Block = AimControl(trackTargets: true, turretAttached: true, turretController: true, primaryTracking: true, rotateRate: 0.01f, elevateRate: 0.01f, minAzimuth: -180, maxAzimuth: 180, minElevation: -58, maxElevation: 90, offset: Vector(x: 0, y: 0, z: 0), fixedOffset: false, inventorySize: 0.34f, debug: false),
+                Block = AimControl(trackTargets: true, turretAttached: true, turretController: true, primaryTracking: true, rotateRate: 0.01f, elevateRate: 0.01f, minAzimuth: -180, maxAzimuth: 180, minElevation: -58, maxElevation: 90, offset: Vector(x: 0, y: 0, z: 0), fixedOffset: false, inventorySize: 0.384f, debug: false),
                 DeviateShotAngle = 0.1f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
                 EnergyCost = 0.00000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel

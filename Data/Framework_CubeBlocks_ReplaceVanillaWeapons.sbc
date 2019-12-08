@@ -328,7 +328,7 @@
       <DestroyEffect>BlockDestroyedExplosion_Small</DestroyEffect>
       <DestroySound>WepSmallWarheadExpl</DestroySound>
       <PCU>225</PCU>
-      <AiEnabled>false</AiEnabled>          
+      <AiEnabled>false</AiEnabled>       
     </Definition>
 
     <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition"> 
@@ -405,7 +405,7 @@
       <DestroyEffect>BlockDestroyedExplosion_Large</DestroyEffect>
       <DestroySound>WepSmallWarheadExpl</DestroySound>
       <PCU>100</PCU>
-      <AiEnabled>false</AiEnabled>       
+      <AiEnabled>false</AiEnabled>   
     </Definition>
 
     <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition"> 
@@ -479,7 +479,7 @@
       <DestroySound>WepSmallWarheadExpl</DestroySound>
       <PCU>125</PCU>
       <IsAirTight>false</IsAirTight>  
-      <AiEnabled>false</AiEnabled>     
+      <AiEnabled>false</AiEnabled>   
     </Definition>
 
     <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition"> 
@@ -536,7 +536,7 @@
       <RotationSpeed>0.00</RotationSpeed>
       <ElevationSpeed>0.00</ElevationSpeed>
       <PCU>425</PCU>
-       <AiEnabled>false</AiEnabled>       
+       <AiEnabled>false</AiEnabled>   
     </Definition> 
     
 
@@ -595,7 +595,7 @@
       <RotationSpeed>0.00</RotationSpeed>
       <ElevationSpeed>0.00</ElevationSpeed>
       <PCU>825</PCU>
-       <AiEnabled>false</AiEnabled>       
+       <AiEnabled>false</AiEnabled>  
     </Definition>
 
     <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
@@ -733,7 +733,7 @@
       <DestroySound>WepSmallWarheadExpl</DestroySound>
       <PCU>80</PCU> 
       <IsAirTight>false</IsAirTight>
-       <AiEnabled>false</AiEnabled>       
+       <AiEnabled>false</AiEnabled>    
     
 		  
     </Definition>

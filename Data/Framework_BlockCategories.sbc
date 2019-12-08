@@ -10,7 +10,7 @@
       <Name>LargeBlocks</Name>
       <ItemIds>
        
-        <string>InteriorTurret/LargeInteriorTurret</string>
+        <string>LargeMissileTurret/LargeInteriorTurret</string>
         <string>LargeMissileTurret/LargeGatlingTurret</string>
         <string>LargeMissileTurret/LargeMissileTurret</string>
        
@@ -32,7 +32,7 @@
         <string>LargeGatlingTurret/SmallGatlingTurret</string>
         <string>LargeMissileTurret/SmallMissileTurret</string>
         <string>LargeMissileTurret/SmallGatlingGun</string>
-        <string>SmallMissileLauncher/(null)</string>
+        <string>LargeMissileTurret/SmallMissileLauncher</string>
         
       </ItemIds>
     </Category>
@@ -51,7 +51,7 @@
       <ItemIds>
         <string>LargeMissileTurret/LargeMissileLauncher</string>
         <string>LargeMissileTurret/SmallGatlingGun</string>
-        <string>SmallMissileLauncher/(null)</string>
+        <string>LargeMissileTurret/SmallMissileLauncher</string>
         <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
       </ItemIds>
     </Category>
@@ -64,15 +64,15 @@
       <DisplayName>DisplayName_Category_ShipWeapons</DisplayName>
       <Name>Weapons</Name>
       <ItemIds>
-        <string>InteriorTurret/LargeInteriorTurret</string>
+        <string>LargeMissileTurret/LargeInteriorTurret</string>
         <string>LargeMissileTurret/LargeGatlingTurret</string>
         <string>LargeMissileTurret/LargeMissileTurret</string>
         <string>LargeGatlingTurret/SmallGatlingTurret</string>
         <string>LargeMissileTurret/SmallMissileTurret</string>
         <string>LargeMissileTurret/LargeMissileLauncher</string>
         <string>LargeMissileTurret/SmallGatlingGun</string>
-        <string>SmallMissileLauncher/(null)</string>
-        <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+        <string>LargeMissileTurret/SmallRocketLauncherReload</string>
+        <string>LargeMissileTurret/SmallMissileLauncher</string>
       </ItemIds>
     </Category>
     

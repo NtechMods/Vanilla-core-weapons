@@ -1,7 +1,7 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0"  encoding="utf-8"?>
 <Definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!--	<EntityComponents> 
-		<EntityComponent xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
+	<EntityComponents> 
+		<EntityComponent xsi:type="MyObjectBuilder_LargeTurretBase">
             <Id>
                 <TypeId>LargeMissileTurret</TypeId>
                 <SubtypeId>LargeMissileTurret</SubtypeId>
@@ -14,15 +14,15 @@
 	
 	
 	
-<!--	<EntityContainers>
+	<EntityContainers>
 		<Container>
             <Id>
 				<TypeId>MyObjectBuilder_LargeTurretBase</TypeId> 
                 <SubtypeId>LargeMissileTurret</SubtypeId>
             </Id>
             <DefaultComponents>
-                <Component BuilderType="MyObjectBuilder_ModStorageComponent" SubtypeId="LargeMissileTurret" ForceCreate="true"/>
+                <Component BuilderType="MyObjectBuilder_Inventory" SubtypeId="LargeMissileTurret" ForceCreate="true"/>
             </DefaultComponents>
         </Container>
-	</EntityContainers> -->
+	</EntityContainers>
 </Definitions>

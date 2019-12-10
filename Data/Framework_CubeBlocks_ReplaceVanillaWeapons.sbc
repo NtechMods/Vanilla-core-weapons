@@ -113,8 +113,8 @@
       <CubeSize>Large</CubeSize>
       <PlaceDecals>false</PlaceDecals>
       <BlockTopology>TriangleMesh</BlockTopology>
-      <Size x="3" y="3" z="3" />
-      <ModelOffset x="0" y="0" z="0" />
+      <Size x="3" y="2" z="3" />
+      <ModelOffset x="0" y="1.2" z="0" />
       <Model>Models\Cubes\Large\MissileTurret.mwm</Model>
       <UseModelIntersection>true</UseModelIntersection>
       <Components>
@@ -188,8 +188,8 @@
       <CubeSize>Large</CubeSize>
       <PlaceDecals>false</PlaceDecals>
       <BlockTopology>TriangleMesh</BlockTopology>
-      <Size x="3" y="3" z="3" />
-      <ModelOffset x="0" y="0" z="0" />
+      <Size x="3" y="2" z="3" />
+      <ModelOffset x="0" y="1.2" z="0" />
       <Model>Models\Cubes\Large\VanillaReplace\GatlingBase.mwm</Model>
       <UseModelIntersection>true</UseModelIntersection>
       <Components>
@@ -265,8 +265,8 @@
       <CubeSize>Small</CubeSize>
       <PlaceDecals>false</PlaceDecals>
       <BlockTopology>TriangleMesh</BlockTopology>
-      <Size x="5" y="5" z="5" />
-      <ModelOffset x="0" y="0" z="0" />
+      <Size x="5" y="3" z="5" />
+      <ModelOffset x="0" y="0.5" z="0" />
       <Model>Models\Cubes\small\VanillaReplace\SmallGatlingTurret_Base.mwm</Model>
       <UseModelIntersection>true</UseModelIntersection>
       <Components>
@@ -342,8 +342,8 @@
       <CubeSize>Small</CubeSize>
       <PlaceDecals>false</PlaceDecals>
       <BlockTopology>TriangleMesh</BlockTopology>
-      <Size x="5" y="5" z="5" />
-      <ModelOffset x="0" y="0" z="0" />
+      <Size x="5" y="3" z="5" />
+      <ModelOffset x="0" y="0.5" z="0" />
       <Model>Models\Cubes\Small\MissileTurret.mwm</Model>
       <UseModelIntersection>true</UseModelIntersection>
       <Components>

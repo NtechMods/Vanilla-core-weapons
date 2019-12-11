@@ -178,7 +178,7 @@ namespace WeaponThread
             return new Session.XYZ { x = X, y = Y, z = Z };
         }
 
-        internal Dictionary<Session.EventTriggers, uint> Delays(uint FiringDelay = 0, uint ReloadingDelay = 0, uint OverheatedDelay = 0, uint TrackingDelay = 0, uint LockedDelay =0, uint OnDelay = 0, uint OffDelay = 0, uint BurstReloadDelay = 0, uint OutOfAmmoDelay = 0, uint PreFireDelay = 0)
+        internal Dictionary<Session.EventTriggers, uint> Delays(uint FiringDelay = 0, uint ReloadingDelay = 0, uint OverheatedDelay = 0, uint TrackingDelay = 0, uint LockedDelay = 0, uint OnDelay = 0, uint OffDelay = 0, uint BurstReloadDelay = 0, uint OutOfAmmoDelay = 0, uint PreFireDelay = 0, uint StopFiringDelay = 0, uint StopTrackingDelay = 0)
         {
             return new Dictionary<Session.EventTriggers, uint>
             {
@@ -192,6 +192,8 @@ namespace WeaponThread
                 [OutOfAmmo] = OutOfAmmoDelay,
                 [PreFire] = PreFireDelay,
                 [EmptyOnGameLoad] = 0,
+                [StopFiring] = StopFiringDelay,
+                [StopTracking] = StopTrackingDelay,
             };
         }
 

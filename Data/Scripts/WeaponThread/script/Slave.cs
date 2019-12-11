@@ -66,7 +66,9 @@ namespace WeaponThread
             BurstReload,
             OutOfAmmo,
             PreFire,
-            EmptyOnGameLoad
+            EmptyOnGameLoad,
+            StopFiring,
+            StopTracking
         }
 
         [ProtoContract]
@@ -410,6 +412,7 @@ namespace WeaponThread
             [ProtoMember(3)] internal Vector3D Offset;
             [ProtoMember(4)] internal ParticleOptions Extras;
             [ProtoMember(5)] internal bool ApplyToShield;
+            [ProtoMember(6)] internal bool ShrinkByDistance;
         }
 
         [ProtoContract]
@@ -581,6 +584,7 @@ namespace WeaponThread
             [ProtoMember(5)] internal EventTriggers[] Reverse;
             [ProtoMember(6)] internal EventTriggers[] Loop;
             [ProtoMember(7)] internal Dictionary<EventTriggers, RelMove[]> EventMoveSets;
+            [ProtoMember(8)] internal EventTriggers[] TriggerOnce;
 
         }
 

@@ -181,7 +181,7 @@ namespace WeaponThread
             {
                 HardPoint = new AudioHardPointDefinition
                 {
-                    FiringSound = "ArcWepShipGatlingShot", // WepShipGatlingShot
+                    FiringSound = "WepTurretInteriorFire", // WepShipGatlingShot
                     FiringSoundPerShot = true,
                     ReloadSound = "",
                     NoAmmoSound = "",

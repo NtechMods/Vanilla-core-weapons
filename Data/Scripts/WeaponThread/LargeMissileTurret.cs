@@ -43,7 +43,7 @@ namespace WeaponThread
                 Loading = new AmmoLoading
                 {
                     RateOfFire = 90,
-                    BarrelsPerShot = 1,
+                    BarrelsPerShot = 6,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
                     ReloadTime = 1, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).

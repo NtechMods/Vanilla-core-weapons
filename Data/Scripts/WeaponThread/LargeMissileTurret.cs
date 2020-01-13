@@ -114,7 +114,7 @@ namespace WeaponThread
                     Guidance = None,
                     TargetLossDegree = 180f,
                     TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    AccelPerSec = 600f,
+                    AccelPerSec = 900f,
                     DesiredSpeed = 200,
                     FieldTime = 0,
                     MaxTrajectory = 800f,

@@ -36,7 +36,26 @@
         
       </ItemIds>
     </Category>
-   
+
+    <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+      <Id>
+        <TypeId>GuiBlockCategoryDefinition</TypeId>
+        <SubtypeId/>
+      </Id>
+      <DisplayName>DisplayName_Category_ShipWeapons</DisplayName>
+      <Name>ShipWeapons</Name>
+      <SearchBlocks>false</SearchBlocks>
+      <IsShipCategory>false</IsShipCategory>
+      <IsBlockCategory>false</IsBlockCategory>
+      <IsToolCategory>true</IsToolCategory>
+      <ItemIds>
+        <string>SmallMissileLauncher/LargeMissileLauncher</string>
+        <string>SmallGatlingGun/(null)</string>
+        <string>SmallMissileLauncher/(null)</string>
+        <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+      </ItemIds>
+    </Category>
+<!--
     <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
       <Id>
         <TypeId>GuiBlockCategoryDefinition</TypeId>
@@ -55,7 +74,7 @@
         <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
       </ItemIds>
     </Category>
-    
+    -->
     <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
       <Id>
         <TypeId>GuiBlockCategoryDefinition</TypeId>

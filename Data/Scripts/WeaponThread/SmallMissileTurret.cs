@@ -19,9 +19,9 @@ namespace WeaponThread
             {
                 MountPoints = new[]
                 {
-                    MountPoint(subTypeId: "SmallMissileTurret",aimPartId: "MissileTurretBarrels", muzzlePartId:"MissileTurretBarrels", azimuthPartId: "", elevationPartId:""),
+                    MountPoint(subTypeId: "SmallMissileTurret",aimPartId: "MissileTurretBarrels", muzzlePartId:"MissileTurretBarrels", azimuthPartId: "MissileTurretBase1", elevationPartId:"MissileTurretBarrels"),
                 },
-                Barrels = Names("muzzle_missile_001", "muzzle_missile_002", "muzzle_missile_003", "muzzle_missile_004", "muzzle_missile_005", "muzzle_missile_006"),
+                Barrels = Names("muzzle_missile_001", "muzzle_missile_002"),
                 EnableSubPartPhysics = false
             },
             HardPoint = new HardPointDefinition
@@ -46,7 +46,7 @@ namespace WeaponThread
                     BarrelsPerShot = 1,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
-                    ReloadTime = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ReloadTime = 1, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     DelayUntilFire = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 0, //heat generated per shot
                     MaxHeat = 1000000, //max heat before weapon enters cooldown (70% of max heat)
@@ -54,7 +54,7 @@ namespace WeaponThread
                     HeatSinkRate = 1, //amount of heat lost per second
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
                     ShotsInBurst = 2,
-                    DelayAfterBurst = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    DelayAfterBurst = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 },
             },
             Targeting = new TargetingDefinition

@@ -19,9 +19,9 @@ namespace WeaponThread
             {
                 MountPoints = new[]
                 {
-                    MountPoint(subTypeId: "LargeGatlingTurret", aimPartId:"", muzzlePartId: "GatlingBarrel", azimuthPartId: "MissileTurretBase1", elevationPartId:"MissileTurretBarrels"),
+                    MountPoint(subTypeId: "LargeGatlingTurret", aimPartId:"", muzzlePartId: "GatlingBarrel", azimuthPartId: "GatlingTurretBase1", elevationPartId:"GatlingTurretBase2"),
                 },
-                Barrels = Names("muzzle_projectile_001", "muzzle_projectile_002", "muzzle_projectile_003", "muzzle_projectile_004", "muzzle_projectile_005", "muzzle_projectile_006"),
+                Barrels = Names("muzzle_projectile_001"),
                 EnableSubPartPhysics = false
             },
             HardPoint = new HardPointDefinition

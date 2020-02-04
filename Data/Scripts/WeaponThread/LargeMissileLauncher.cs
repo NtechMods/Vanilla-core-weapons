@@ -19,7 +19,7 @@ namespace WeaponThread
             {
                 MountPoints = new[]
                 {
-                    MountPoint(subTypeId: "LargeMissileLauncher", aimPartId: "MissileTurretBarrels", muzzlePartId: "None", azimuthPartId: "", elevationPartId:""),
+                    MountPoint(subTypeId: "LargeMissileLauncher", aimPartId: "None", muzzlePartId: "None", azimuthPartId: "None", elevationPartId:"None"),
                 },
                 Barrels = Names("muzzle_missile_001", "muzzle_missile_002", "muzzle_missile_003", "muzzle_missile_004", "muzzle_missile_005", "muzzle_missile_006", "muzzle_missile_007",
                         "muzzle_missile_008", "muzzle_missile_009", "muzzle_missile_010", "muzzle_missile_011", "muzzle_missile_012", "muzzle_missile_013", "muzzle_missile_014",
@@ -45,10 +45,10 @@ namespace WeaponThread
                 Loading = new AmmoLoading
                 {
                     RateOfFire = 120,
-                    BarrelsPerShot = 19,
+                    BarrelsPerShot = 1,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
-                    ReloadTime = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ReloadTime = 1, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     DelayUntilFire = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 0, //heat generated per shot
                     MaxHeat = 1000000, //max heat before weapon enters cooldown (70% of max heat)
@@ -56,7 +56,7 @@ namespace WeaponThread
                     HeatSinkRate = 1, //amount of heat lost per second
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
                     ShotsInBurst = 19,
-                    DelayAfterBurst = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    DelayAfterBurst = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 },
             },
             Targeting = new TargetingDefinition

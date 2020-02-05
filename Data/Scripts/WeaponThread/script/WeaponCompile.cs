@@ -108,9 +108,9 @@ namespace WeaponThread
             return new Session.EwarFields { Duration = duration, StackDuration = stackDuration, Depletable = depletable};
         }
 
-        internal Session.TrailDefinition Options(bool enable, string material, int decayTime, Vector4 color)
+        internal Session.TrailDefinition Options(bool enable, string material, int decayTime, Vector4 color, bool back = false, float customWidth = 0, bool useWidthVariance = false, bool useColorFade = false)
         {
-            return new Session.TrailDefinition { Enable = enable, Material = material, DecayTime = decayTime, Color = color };
+            return new Session.TrailDefinition { Enable = enable, Material = material, DecayTime = decayTime, Color = color, Back = back, CustomWidth = customWidth, UseWidthVariance = useWidthVariance, UseColorFade = useColorFade};
         }
 
         internal Session.Mines Options(double detectRadius, double deCloakRadius, int fieldTime, bool cloak, bool persist)

@@ -145,9 +145,9 @@ namespace WeaponThread
                 {
                     Ammo = new Particle
                     {
-                        Name = "MissileSmokeTrail",
+                        Name = "Smoke_Missile",
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
-                        Offset = Vector(x: 0, y: -1, z: 0),
+                        Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = Options(loop: true, restart: false, distance: 5000, duration: 1, scale: 0.25f)
                     },
                     Hit = new Particle

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using ProtoBuf;
 using Sandbox.ModAPI;
@@ -128,6 +129,7 @@ namespace WeaponThread
             [ProtoMember(12)] internal AmmoLoading Loading;
             [ProtoMember(13)] internal AimControlDefinition Block;
             [ProtoMember(14)] internal UiDefinition Ui;
+            [ProtoMember(15)] internal bool MuzzleCheck;
         }
 
         [ProtoContract]
@@ -461,6 +463,10 @@ namespace WeaponThread
             [ProtoMember(2)] internal string Material;
             [ProtoMember(3)] internal int DecayTime;
             [ProtoMember(4)] internal Vector4 Color;
+            [ProtoMember(5)] internal bool Back;
+            [ProtoMember(6)] internal float CustomWidth;
+            [ProtoMember(7)] internal bool UseWidthVariance;
+            [ProtoMember(8)] internal bool UseColorFade;
         }
 
         [ProtoContract]
@@ -585,6 +591,7 @@ namespace WeaponThread
             [ProtoMember(6)] internal EventTriggers[] Loop;
             [ProtoMember(7)] internal Dictionary<EventTriggers, RelMove[]> EventMoveSets;
             [ProtoMember(8)] internal EventTriggers[] TriggerOnce;
+            [ProtoMember(9)] internal EventTriggers[] ResetEmissives;
 
         }
 

@@ -28,7 +28,7 @@ namespace WeaponThread
             {
                 WeaponId = "SmallRocketLauncherReload", // name of weapon in terminal
                 AmmoMagazineId = "Missile200mm",
-                Block = AimControl(trackTargets: true, turretAttached: true, turretController: true, primaryTracking: true, rotateRate: 0.00f, elevateRate: 0.00f, minAzimuth: 0, maxAzimuth: 0, minElevation: 0, maxElevation: 0, offset: Vector(x: 0, y: 0, z: 0), fixedOffset: false, inventorySize: 0.24f, debug: false),
+                Block = AimControl(trackTargets: false, turretAttached: false, turretController: false, primaryTracking: false, rotateRate: 0.00f, elevateRate: 0.00f, minAzimuth: 0, maxAzimuth: 0, minElevation: 0, maxElevation: 0, offset: Vector(x: 0, y: 0, z: 0), fixedOffset: false, inventorySize: 0.24f, debug: false),
                 DeviateShotAngle = 0.1f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
                 EnergyCost = 0.00000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel

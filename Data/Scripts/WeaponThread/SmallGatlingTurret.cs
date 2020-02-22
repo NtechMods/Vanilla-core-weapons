@@ -60,7 +60,7 @@ namespace WeaponThread
             },
             Targeting = new TargetingDefinition
             {
-                Threats = Valid(Characters, Projectiles, Grids),
+                Threats = Valid(Characters, Projectiles, Grids, Meteors),
                 SubSystems = Priority(Thrust, Utility, Offense, Power, Production, Any), //define block type targeting order
                 ClosestFirst = false, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
                 MinimumDiameter = 0, // 0 = unlimited, Minimum radius of threat to engage.

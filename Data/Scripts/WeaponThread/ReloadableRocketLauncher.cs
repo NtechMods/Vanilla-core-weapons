@@ -76,7 +76,7 @@ namespace WeaponThread
                 // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
                 Characters = 0.2f,
                 Grids = Options(largeGridModifier: -1f, smallGridModifier: -1f),
-                Armor = Options(armor: -1f, light: -1f, heavy: -1f, nonArmor: -1f),
+                Armor = Options(armor: 0.8f, light: 0.8f, heavy: 0.6f, nonArmor: 1f),
                 Shields = Options(modifier: -1f, type: Energy), // Types: Kinetic, Energy, Emp or Bypass
 
                 // ignoreOthers will cause projectiles to pass through all blocks that do not match the custom subtypeIds.

@@ -8,6 +8,15 @@ using static WeaponThread.Session.TargetingDefinition.Threat;
 using static WeaponThread.Session.Shrapnel.ShrapnelShape;
 using static WeaponThread.Session.ShapeDefinition.Shapes;
 using static WeaponThread.Session;
+using static WeaponThread.WeaponStructure.ShieldDefinition.ShieldType;
+using static WeaponThread.WeaponStructure.AmmoTrajectory.GuidanceType;
+using static WeaponThread.WeaponStructure.HardPointDefinition.Prediction;
+using static WeaponThread.WeaponStructure.AreaDamage.AreaEffectType;
+using static WeaponThread.WeaponStructure.TargetingDefinition.BlockTypes;
+using static WeaponThread.WeaponStructure.TargetingDefinition.Threat;
+using static WeaponThread.WeaponStructure.Shrapnel.ShrapnelShape;
+using static WeaponThread.WeaponStructure.ShapeDefinition.Shapes;
+using static WeaponThread.WeaponStructure;
 
 namespace WeaponThread
 {   // Don't edit above this line

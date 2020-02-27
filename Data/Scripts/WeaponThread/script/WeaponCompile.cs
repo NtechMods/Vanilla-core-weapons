@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VRageMath;
-using static WeaponThread.Session.ShieldDefinition;
-using static WeaponThread.Session.EventTriggers;
+using static WeaponThread.WeaponStructure.ShieldDefinition;
+using static WeaponThread.WeaponStructure.PartAnimationSetDef.EventTriggers;
 
 namespace WeaponThread
 {
     partial class Weapons
     {
-        internal List<Session.WeaponDefinition> Weapon = new List<Session.WeaponDefinition>();
-        internal void ConfigFiles(params Session.WeaponDefinition[] defs)
+        internal List<WeaponStructure.WeaponDefinition> Weapon = new List<WeaponStructure.WeaponDefinition>();
+        internal void ConfigFiles(params WeaponStructure.WeaponDefinition[] defs)
         {
             foreach (var def in defs) Weapon.Add(def);
         }
 
-        internal Session.WeaponDefinition[] ReturnDefs()
+        internal WeaponStructure.WeaponDefinition[] ReturnDefs()
         {
-            var weaponDefinitions = new Session.WeaponDefinition[Weapon.Count];
+            var weaponDefinitions = new WeaponStructure.WeaponDefinition[Weapon.Count];
             for (int i = 0; i < Weapon.Count; i++) weaponDefinitions[i] = Weapon[i];
             Weapon.Clear();
             return weaponDefinitions;
         }
 
-        internal Session.ParticleOptions Options(bool loop, bool restart, float distance, float duration, float scale, float hitPlayChance = 1f)
+        internal WeaponStructure.ParticleOptions Options(bool loop, bool restart, float distance, float duration, float scale, float hitPlayChance = 1f)
         {
-            return new Session.ParticleOptions
+            return new WeaponStructure.ParticleOptions
             {
                 Loop = loop,
                 Restart = restart,
@@ -35,9 +34,9 @@ namespace WeaponThread
             };
         }
 
-        internal Session.Detonate Options(bool detonateOnEnd, bool armOnlyOnHit, float detonationDamage, float detonationRadius)
+        internal WeaponStructure.Detonate Options(bool detonateOnEnd, bool armOnlyOnHit, float detonationDamage, float detonationRadius)
         {
-            return new Session.Detonate
+            return new WeaponStructure.Detonate
             {
                 DetonateOnEnd = detonateOnEnd,
                 ArmOnlyOnHit = armOnlyOnHit,
@@ -46,9 +45,9 @@ namespace WeaponThread
             };
         }
 
-        internal Session.Explosion Options(bool noVisuals, bool noSound, float scale, string customParticle, string customSound)
+        internal WeaponStructure.Explosion Options(bool noVisuals, bool noSound, float scale, string customParticle, string customSound)
         {
-            return new Session.Explosion
+            return new WeaponStructure.Explosion
             {
                 NoVisuals = noVisuals,
                 NoSound = noSound,
@@ -58,99 +57,99 @@ namespace WeaponThread
             };
         }
 
-        internal Session.GridSizeDefinition Options(float largeGridModifier, float smallGridModifier)
+        internal WeaponStructure.GridSizeDefinition Options(float largeGridModifier, float smallGridModifier)
         {
-            return new Session.GridSizeDefinition { Large = largeGridModifier, Small = smallGridModifier };
+            return new WeaponStructure.GridSizeDefinition { Large = largeGridModifier, Small = smallGridModifier };
         }
 
-        internal Session.ObjectsHit Options(int maxObjectsHit, bool countBlocks)
+        internal WeaponStructure.ObjectsHit Options(int maxObjectsHit, bool countBlocks)
         {
-            return new Session.ObjectsHit { MaxObjectsHit = maxObjectsHit, CountBlocks = countBlocks };
+            return new WeaponStructure.ObjectsHit { MaxObjectsHit = maxObjectsHit, CountBlocks = countBlocks };
         }
 
-        internal Session.Shrapnel Options(float baseDamage, int fragments, float maxTrajectory, bool noAudioVisual, bool noGuidance, Session.Shrapnel.ShrapnelShape shape)
+        internal WeaponStructure.Shrapnel Options(float baseDamage, int fragments, float maxTrajectory, bool noAudioVisual, bool noGuidance, WeaponStructure.Shrapnel.ShrapnelShape shape, bool areaEffect = false)
         {
-            return new Session.Shrapnel { BaseDamage = baseDamage, Fragments = fragments, MaxTrajectory = maxTrajectory, NoAudioVisual = noAudioVisual, NoGuidance = noGuidance, Shape = shape};
+            return new WeaponStructure.Shrapnel { BaseDamage = baseDamage, Fragments = fragments, MaxTrajectory = maxTrajectory, NoAudioVisual = noAudioVisual, NoGuidance = noGuidance, Shape = shape};
         }
 
-        internal Session.CustomScalesDefinition SubTypeIds(bool ignoreOthers, params Session.CustomBlocksDefinition[] customDefScale)
+        internal WeaponStructure.CustomScalesDefinition SubTypeIds(bool ignoreOthers, params WeaponStructure.CustomBlocksDefinition[] customDefScale)
         {
-            return new Session.CustomScalesDefinition {IgnoreAllOthers = ignoreOthers, Types = customDefScale};
+            return new WeaponStructure.CustomScalesDefinition {IgnoreAllOthers = ignoreOthers, Types = customDefScale};
         }
 
-        internal Session.ArmorDefinition Options(float armor, float light, float heavy, float nonArmor)
+        internal WeaponStructure.ArmorDefinition Options(float armor, float light, float heavy, float nonArmor)
         {
-            return new Session.ArmorDefinition { Armor = armor, Light = light, Heavy = heavy, NonArmor = nonArmor };
+            return new WeaponStructure.ArmorDefinition { Armor = armor, Light = light, Heavy = heavy, NonArmor = nonArmor };
         }
 
-        internal Session.OffsetEffect Options(double maxOffset, double minLength, double maxLength)
+        internal WeaponStructure.OffsetEffect Options(double maxOffset, double minLength, double maxLength)
         {
-            return new Session.OffsetEffect { MaxOffset = maxOffset, MinLength = minLength, MaxLength = maxLength};
+            return new WeaponStructure.OffsetEffect { MaxOffset = maxOffset, MinLength = minLength, MaxLength = maxLength};
         }
 
-        internal Session.ShieldDefinition Options(float modifier, ShieldType type)
+        internal WeaponStructure.ShieldDefinition Options(float modifier, ShieldType type, float bypassModifier = -1f)
         {
-            return new Session.ShieldDefinition { Modifier = modifier, Type = type };
+            return new WeaponStructure.ShieldDefinition { Modifier = modifier, Type = type , BypassModifier = bypassModifier };
         }
 
-        internal Session.ShapeDefinition Options(Session.ShapeDefinition.Shapes shape, double diameter)
+        internal WeaponStructure.ShapeDefinition Options(WeaponStructure.ShapeDefinition.Shapes shape, double diameter)
         {
-            return new Session.ShapeDefinition { Shape = shape, Diameter = diameter };
+            return new WeaponStructure.ShapeDefinition { Shape = shape, Diameter = diameter };
         }
 
-        internal Session.Pulse Options(int interval, int pulseChance)
+        internal WeaponStructure.Pulse Options(int interval, int pulseChance)
         {
-            return new Session.Pulse { Interval = interval, PulseChance = pulseChance };
+            return new WeaponStructure.Pulse { Interval = interval, PulseChance = pulseChance };
         }
 
-        internal Session.EwarFields Options(int duration, bool stackDuration, bool depletable)
+        internal WeaponStructure.EwarFields Options(int duration, bool stackDuration, bool depletable, int maxStacks = int.MaxValue, double triggerRange = 0)
         {
-            return new Session.EwarFields { Duration = duration, StackDuration = stackDuration, Depletable = depletable};
+            return new WeaponStructure.EwarFields { Duration = duration, StackDuration = stackDuration, Depletable = depletable, MaxStacks = maxStacks, TriggerRange = triggerRange};
         }
 
-        internal Session.TrailDefinition Options(bool enable, string material, int decayTime, Vector4 color, bool back = false, float customWidth = 0, bool useWidthVariance = false, bool useColorFade = false)
+        internal WeaponStructure.TrailDefinition Options(bool enable, string material, int decayTime, Vector4 color, bool back = false, float customWidth = 0, bool useWidthVariance = false, bool useColorFade = false)
         {
-            return new Session.TrailDefinition { Enable = enable, Material = material, DecayTime = decayTime, Color = color, Back = back, CustomWidth = customWidth, UseWidthVariance = useWidthVariance, UseColorFade = useColorFade};
+            return new WeaponStructure.TrailDefinition { Enable = enable, Material = material, DecayTime = decayTime, Color = color, Back = back, CustomWidth = customWidth, UseWidthVariance = useWidthVariance, UseColorFade = useColorFade};
         }
 
-        internal Session.Mines Options(double detectRadius, double deCloakRadius, int fieldTime, bool cloak, bool persist)
+        internal WeaponStructure.Mines Options(double detectRadius, double deCloakRadius, int fieldTime, bool cloak, bool persist)
         {
-            return new Session.Mines {  DetectRadius = detectRadius, DeCloakRadius = deCloakRadius, FieldTime = fieldTime, Cloak = cloak, Persist = persist};
+            return new WeaponStructure.Mines {  DetectRadius = detectRadius, DeCloakRadius = deCloakRadius, FieldTime = fieldTime, Cloak = cloak, Persist = persist};
         }
 
-        internal Session.CustomBlocksDefinition Block(string subTypeId, float modifier)
+        internal WeaponStructure.CustomBlocksDefinition Block(string subTypeId, float modifier)
         {
-            return new Session.CustomBlocksDefinition { SubTypeId = subTypeId, Modifier = modifier };
+            return new WeaponStructure.CustomBlocksDefinition { SubTypeId = subTypeId, Modifier = modifier };
         }
 
-        internal Session.TracerBaseDefinition Base(bool enable, float length, float width, Vector4 color)
+        internal WeaponStructure.TracerBaseDefinition Base(bool enable, float length, float width, Vector4 color)
         {
-            return new Session.TracerBaseDefinition { Enable = enable, Length = length, Width = width, Color = color};
+            return new WeaponStructure.TracerBaseDefinition { Enable = enable, Length = length, Width = width, Color = color};
         }
 
-        internal Session.AimControlDefinition AimControl(bool trackTargets, bool turretAttached, bool turretController, float rotateRate, float elevateRate, Vector3D offset, bool primaryTracking = false, int minAzimuth = 0, int maxAzimuth = 0, int minElevation = 0, int maxElevation = 0, bool fixedOffset = false, float inventorySize = .384f, bool debug = false)
+        internal WeaponStructure.AimControlDefinition AimControl(bool trackTargets, bool turretAttached, bool turretController, float rotateRate, float elevateRate, Vector3D offset, bool primaryTracking = false, int minAzimuth = 0, int maxAzimuth = 0, int minElevation = 0, int maxElevation = 0, bool fixedOffset = false, float inventorySize = .384f, bool debug = false, bool lockOnFocus = false)
         {
-            return new Session.AimControlDefinition { TrackTargets = trackTargets, TurretAttached = turretAttached, TurretController = turretController, RotateRate = rotateRate, ElevateRate = elevateRate, Offset = offset, Debug = debug, MinAzimuth = minAzimuth, MaxAzimuth = maxAzimuth, MinElevation = minElevation, MaxElevation = maxElevation, FixedOffset = fixedOffset, InventorySize = inventorySize, PrimaryTracking = primaryTracking };
+            return new WeaponStructure.AimControlDefinition { TrackTargets = trackTargets, TurretAttached = turretAttached, TurretController = turretController, RotateRate = rotateRate, ElevateRate = elevateRate, Offset = offset, Debug = debug, MinAzimuth = minAzimuth, MaxAzimuth = maxAzimuth, MinElevation = minElevation, MaxElevation = maxElevation, FixedOffset = fixedOffset, InventorySize = inventorySize, PrimaryTracking = primaryTracking, LockOnFocus = lockOnFocus };
         }
 
-        internal Session.UiDefinition Display(bool rateOfFire, bool damageModifier, bool toggleGuidance, bool enableOverload)
+        internal WeaponStructure.UiDefinition Display(bool rateOfFire, bool damageModifier, bool toggleGuidance, bool enableOverload)
         {
-            return new Session.UiDefinition { RateOfFire = rateOfFire, DamageModifier = damageModifier, ToggleGuidance = toggleGuidance, EnableOverload = enableOverload };
+            return new WeaponStructure.UiDefinition { RateOfFire = rateOfFire, DamageModifier = damageModifier, ToggleGuidance = toggleGuidance, EnableOverload = enableOverload };
         }
 
-        internal Session.TargetingDefinition.BlockTypes[] Priority(params Session.TargetingDefinition.BlockTypes[] systems)
+        internal WeaponStructure.TargetingDefinition.BlockTypes[] Priority(params WeaponStructure.TargetingDefinition.BlockTypes[] systems)
         {
             return systems;
         }
 
-        internal Session.TargetingDefinition.Threat[] Valid(params Session.TargetingDefinition.Threat[] threats)
+        internal WeaponStructure.TargetingDefinition.Threat[] Valid(params WeaponStructure.TargetingDefinition.Threat[] threats)
         {
             return threats;
         }
 
-        internal Session.Randomize Random(float start, float end)
+        internal WeaponStructure.Randomize Random(float start, float end)
         {
-            return new Session.Randomize { Start = start, End = end };
+            return new WeaponStructure.Randomize { Start = start, End = end };
         }
 
         internal Vector4 Color(float red, float green, float blue, float alpha)
@@ -163,24 +162,24 @@ namespace WeaponThread
             return new Vector3D(x, y, z);
         }
 
-        internal Session.MountPoint MountPoint(string subTypeId, string aimPartId, string muzzlePartId, string azimuthPartId = "", string elevationPartId = "")
+        internal WeaponStructure.MountPoint MountPoint(string subTypeId, string aimPartId, string muzzlePartId, string azimuthPartId = "", string elevationPartId = "")
         {
-            return new Session.MountPoint { SubtypeId = subTypeId, AimPartId = aimPartId, MuzzlePartId = muzzlePartId, AzimuthPartId = azimuthPartId, ElevationPartId = elevationPartId };
+            return new WeaponStructure.MountPoint { SubtypeId = subTypeId, AimPartId = aimPartId, MuzzlePartId = muzzlePartId, AzimuthPartId = azimuthPartId, ElevationPartId = elevationPartId };
         }
 
-        internal Session.EventTriggers[] Events(params Session.EventTriggers[] events)
+        internal WeaponStructure.PartAnimationSetDef.EventTriggers[] Events(params WeaponStructure.PartAnimationSetDef.EventTriggers[] events)
         {
             return events;
         }
 
-        internal Session.XYZ Transformation(double X, double Y, double Z)
+        internal WeaponStructure.XYZ Transformation(double X, double Y, double Z)
         {
-            return new Session.XYZ { x = X, y = Y, z = Z };
+            return new WeaponStructure.XYZ { x = X, y = Y, z = Z };
         }
 
-        internal Dictionary<Session.EventTriggers, uint> Delays(uint FiringDelay = 0, uint ReloadingDelay = 0, uint OverheatedDelay = 0, uint TrackingDelay = 0, uint LockedDelay = 0, uint OnDelay = 0, uint OffDelay = 0, uint BurstReloadDelay = 0, uint OutOfAmmoDelay = 0, uint PreFireDelay = 0, uint StopFiringDelay = 0, uint StopTrackingDelay = 0)
+        internal Dictionary<WeaponStructure.PartAnimationSetDef.EventTriggers, uint> Delays(uint FiringDelay = 0, uint ReloadingDelay = 0, uint OverheatedDelay = 0, uint TrackingDelay = 0, uint LockedDelay = 0, uint OnDelay = 0, uint OffDelay = 0, uint BurstReloadDelay = 0, uint OutOfAmmoDelay = 0, uint PreFireDelay = 0, uint StopFiringDelay = 0, uint StopTrackingDelay = 0)
         {
-            return new Dictionary<Session.EventTriggers, uint>
+            return new Dictionary<WeaponStructure.PartAnimationSetDef.EventTriggers, uint>
             {
                 [Firing] = FiringDelay,
                 [Reloading] = ReloadingDelay,
@@ -197,9 +196,9 @@ namespace WeaponThread
             };
         }
 
-        internal Session.WeaponEmissive Emissive(string EmissiveName, bool CycleEmissiveParts, bool LeavePreviousOn, Vector4[] Colors, float IntensityFrom, float IntensityTo, string[] EmissivePartNames)
+        internal WeaponStructure.WeaponEmissive Emissive(string EmissiveName, bool CycleEmissiveParts, bool LeavePreviousOn, Vector4[] Colors, float IntensityFrom, float IntensityTo, string[] EmissivePartNames)
         {
-            return new Session.WeaponEmissive()
+            return new WeaponStructure.WeaponEmissive()
             {
                 EmissiveName = EmissiveName,
                 Colors = Colors,

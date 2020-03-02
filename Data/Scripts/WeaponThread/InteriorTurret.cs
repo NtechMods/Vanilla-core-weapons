@@ -20,8 +20,10 @@ namespace WeaponThread
                     new MountPointDef
                     {
                         SubtypeId = "LargeInteriorTurret",
-                        AimPartId = "",
+                        AimPartId = "InteriorTurretBase2",
                         MuzzlePartId = "InteriorTurretBase2",
+                        //AzimuthPartId = "InteriorTurretBase1",
+                        //ElevationPartId = "InteriorTurretBase2",
                     },
 
                 },
@@ -34,7 +36,7 @@ namespace WeaponThread
             {
                 Threats = new[]
                 {
-                    Grids,
+                    Grids, Characters, Projectiles, Meteors,
                 },
                 SubSystems = new[]
                 {

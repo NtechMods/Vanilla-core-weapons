@@ -11,7 +11,7 @@ namespace WeaponThread
 {   // Don't edit above this line
     partial class Weapons
     {
-        WeaponDefinition SmallGatlingTurret => new WeaponDefinition
+        WeaponDefinition LargeGatlingTurret => new WeaponDefinition
         {
             Assignments = new ModelAssignmentsDef
             {
@@ -19,8 +19,8 @@ namespace WeaponThread
                 {
                     new MountPointDef
                     {
-                        SubtypeId = "SmallGatlingTurret",
-                        AimPartId = "",
+                        SubtypeId = "LargeGatlingTurret",
+                        AimPartId = "GatlingTurretBase2",
                         MuzzlePartId = "GatlingBarrel",
                     },
 

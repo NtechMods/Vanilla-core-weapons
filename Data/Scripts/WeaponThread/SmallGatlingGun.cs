@@ -20,7 +20,7 @@ namespace WeaponThread
                     new MountPointDef
                     {
                         SubtypeId = "SmallGatlingGun",
-                        AimPartId = "",
+                        AimPartId = "Barrel",
                         MuzzlePartId = "Barrel",
                     },
 

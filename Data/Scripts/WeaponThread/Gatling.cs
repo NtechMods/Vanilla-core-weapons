@@ -11,7 +11,7 @@ namespace WeaponThread
 {   // Don't edit above this line
     partial class Weapons
     {
-        WeaponDefinition SmallMissileLauncher => new WeaponDefinition
+        WeaponDefinition Gatling => new WeaponDefinition
         {
             Assignments = new ModelAssignmentsDef
             {
@@ -19,31 +19,28 @@ namespace WeaponThread
                 {
                     new MountPointDef
                     {
-                        SubtypeId = "SmallMissileLauncher",
-                        AimPartId = "None",
-                        MuzzlePartId = "None",
+                        SubtypeId = "LargeInteriorTurret",
+                        AimPartId = "",
+                        MuzzlePartId = "InteriorTurretBase2",
                     },
 
                 },
                 Barrels = new []
                 {
-                    "muzzle_missile_001",
-					"muzzle_missile_002",
-					"muzzle_missile_003",
-					"muzzle_missile_004",
+                    "muzzle_projectile",
                 },
             },
             Targeting = new TargetingDef
             {
                 Threats = new[]
                 {
-                    Grids, Characters, Projectiles, Meteors, // threats percieved automatically without changing menu settings
+                    Grids,
                 },
                 SubSystems = new[]
                 {
-                    Thrust, Utility, Offense, Power, Production, Any, // subsystems the gun targets
+                    Thrust, Utility, Offense, Power, Production, Any,
                 },
-                ClosestFirst = false, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
+                ClosestFirst = true, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
                 MinimumDiameter = 0, // 0 = unlimited, Minimum radius of threat to engage.
                 MaximumDiameter = 0, // 0 = unlimited, Maximum radius of threat to engage.
                 TopTargets = 4, // 0 = unlimited, max number of top targets to randomize between.
@@ -52,10 +49,10 @@ namespace WeaponThread
             },
             HardPoint = new HardPointDef
             {
-                WeaponName = "SmallMissileLauncher", // name of weapon in terminal
-                DeviateShotAngle = 0.1f,
+                WeaponName = "LargeInteriorTurret", // name of weapon in terminal
+                DeviateShotAngle = 0.3f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
-                AimLeadingPrediction = Off, // Off, Basic, Accurate, Advanced
+                AimLeadingPrediction = Accurate, // Off, Basic, Accurate, Advanced
                 DelayCeaseFire = 10, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
 
                 Ui = new UiDef
@@ -67,22 +64,22 @@ namespace WeaponThread
                 },
                 Ai = new AiDef
                 {
-                    TrackTargets = false,
-                    TurretAttached = false,
-                    TurretController = false,
-                    PrimaryTracking = false,
-                    LockOnFocus = false,
+                    TrackTargets = true,
+                    TurretAttached = true,
+                    TurretController = true,
+                    PrimaryTracking = true,
+                    LockOnFocus = true,
                 },
                 HardWare = new HardwareDef
                 {
-                    RotateRate = 0.00f,
-                    ElevateRate = 0.00f,
-                    MinAzimuth = 0,
-                    MaxAzimuth = 0,
-                    MinElevation = 0,
-                    MaxElevation = 0,
+                    RotateRate = 0.02f,
+                    ElevateRate = 0.02f,
+                    MinAzimuth = -180,
+                    MaxAzimuth = 180,
+                    MinElevation = -76,
+                    MaxElevation = 90,
                     FixedOffset = false,
-                    InventorySize = 0.24f,
+                    InventorySize = 0.18f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -91,33 +88,33 @@ namespace WeaponThread
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = false,
+                    Debug = true,
                 },
                 Loading = new LoadingDef
                 {
-                    RateOfFire = 60,
+                    RateOfFire = 600,
                     BarrelSpinRate = 0, // visual only, 0 disables and uses RateOfFire
                     BarrelsPerShot = 1,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
-                    ReloadTime = 1, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ReloadTime = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     DelayUntilFire = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    HeatPerShot = 10, //heat generated per shot
-                    MaxHeat = 1000000, //max heat before weapon enters cooldown (70% of max heat)
+                    HeatPerShot = 1, //heat generated per shot
+                    MaxHeat = 70000, //max heat before weapon enters cooldown (70% of max heat)
                     Cooldown = .95f, //percent of max heat to be under to start firing again after overheat accepts .2-.95
-                    HeatSinkRate = 10, //amount of heat lost per second
+                    HeatSinkRate = 69000, //amount of heat lost per second
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
-                    ShotsInBurst = 4,
+                    ShotsInBurst = 0,
                     DelayAfterBurst = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     FireFullBurst = false,
                 },
                 Audio = new HardPointAudioDef
                 {
                     PreFiringSound = "",
-                    FiringSound = "WepShipSmallMissileShot", // subtype name from sbc
+                    FiringSound = "WepTurretInteriorFire", // subtype name from sbc
                     FiringSoundPerShot = true,
                     ReloadSound = "",
-                    NoAmmoSound = "ArcWepShipGatlingNoAmmo",
+                    NoAmmoSound = "",
                     HardPointRotationSound = "WepTurretGatlingRotate",
                     BarrelRotationSound = "",
                 },
@@ -125,21 +122,21 @@ namespace WeaponThread
                 {
                     Barrel1 = new ParticleDef
                     {
-                        Name = "", // Smoke_LargeGunShot
+                        Name = "Smoke_LargeGunShot", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: -1, z: 0),
                         Extras = new ParticleOptionDef
                         {
                             Loop = false,
                             Restart = false,
-                            MaxDistance = 200,
+                            MaxDistance = 100,
                             MaxDuration = 1,
                             Scale = 1.0f,
                         },
                     },
                     Barrel2 = new ParticleDef
                     {
-                        Name = "",//Muzzle_Flash_Large
+                        Name = "Muzzle_Flash_Large",//Muzzle_Flash_Large
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: -1, z: 0),
                         Extras = new ParticleOptionDef
@@ -154,7 +151,7 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = MissileAmmos,
+            Ammos = GatlingAmmos,
         };
     }
 }

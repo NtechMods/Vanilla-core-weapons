@@ -19,7 +19,7 @@ namespace WeaponThread
             new AmmoDef
             {
                 AmmoMagazine = "Missile200mm",
-                AmmoRound = "MissileAmmo200mm",
+                AmmoRound = "Energy",
                 HybridRound = false, //AmmoMagazine based weapon with energy cost
                 EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
                 BaseDamage = 1f,

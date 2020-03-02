@@ -19,7 +19,7 @@ namespace WeaponThread
             new AmmoDef
             {
                 AmmoMagazine = "NATO_5p56x45mm",
-                AmmoRound = "NATOAmmoRound",
+                AmmoRound = "Energy",
                 HybridRound = false, //AmmoMagazine based weapon with energy cost
                 EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
                 BaseDamage = 150f,

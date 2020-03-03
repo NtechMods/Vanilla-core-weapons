@@ -279,7 +279,7 @@ namespace WeaponThread
                 [ProtoMember(15)] internal ShrapnelDef Shrapnel;
                 [ProtoMember(16)] internal GraphicDef AmmoGraphics;
                 [ProtoMember(17)] internal AmmoAudioDef AmmoAudio;
-
+                [ProtoMember(18)] internal bool HardPointUsable;
 
                 [ProtoContract]
                 public struct DamageScaleDef

@@ -19,7 +19,7 @@ namespace WeaponThread
             new AmmoDef
             {
                 AmmoMagazine = "Missile200mm",
-                AmmoRound = "Energy",
+                AmmoRound = "MissileAmmos",
                 HybridRound = false, //AmmoMagazine based weapon with energy cost
                 EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
                 BaseDamage = 1f,
@@ -39,7 +39,7 @@ namespace WeaponThread
                 },
                 Shrapnel = new ShrapnelDef
                 {
-                    AmmoRound = "MissileAmmo200mm2",
+                    AmmoRound = "MissileAmmos2",
                     Fragments = 0,
                     ForwardDegrees = 0,
                     BackwardDegrees = 0,

@@ -4,7 +4,7 @@
     <Ammo xsi:type="MyObjectBuilder_ProjectileAmmoDefinition">
       <Id>
         <TypeId>AmmoDefinition</TypeId>
-        <SubtypeId>Energy</SubtypeId>
+        <SubtypeId>VanillaReplaceAmmo</SubtypeId>
       </Id>
       <BasicProperties>
         <DesiredSpeed>0</DesiredSpeed>

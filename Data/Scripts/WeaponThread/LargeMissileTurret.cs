@@ -84,7 +84,7 @@ namespace WeaponThread
                     MinElevation = -58,
                     MaxElevation = 90,
                     FixedOffset = false,
-                    InventorySize = 0.384f,
+                    InventorySize = 0.768f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -93,7 +93,7 @@ namespace WeaponThread
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = false,
+                    Debug = true,
                 },
                 Loading = new LoadingDef
                 {
@@ -156,7 +156,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = MissileAmmos,
+            //Ammos = MissileAmmos,
+			Ammos = new [] {
+                AmmoType1
+						 
+            },
         };
     }
 }

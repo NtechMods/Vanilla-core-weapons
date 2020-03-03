@@ -1,5 +1,4 @@
-﻿using VRageMath;
-using static WeaponThread.WeaponStructure;
+﻿using static WeaponThread.WeaponStructure;
 using static WeaponThread.WeaponStructure.WeaponDefinition;
 using static WeaponThread.WeaponStructure.WeaponDefinition.ModelAssignmentsDef;
 using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef;
@@ -7,24 +6,36 @@ using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef.Predicti
 using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.BlockTypes;
 using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.Threat;
 
-namespace WeaponThread
-{   // Don't edit above this line
-    partial class Weapons
-    {
+namespace WeaponThread {   
+    partial class Weapons {
+		// Don't edit above this line
         WeaponDefinition LargeGatlingTurret => new WeaponDefinition
         {
+			
+			
+			
+			
+			
+			
+			
             Assignments = new ModelAssignmentsDef
             {
                 MountPoints = new[]
                 {
-                    new MountPointDef
-                    {
+                    new MountPointDef {
                         SubtypeId = "LargeGatlingTurret",
                         AimPartId = "",
                         MuzzlePartId = "GatlingBarrel",
                     },
 
                 },
+
+
+
+
+
+
+
                 Barrels = new []
                 {
                     "muzzle_projectile",
@@ -40,10 +51,10 @@ namespace WeaponThread
                 {
                     Thrust, Utility, Offense, Power, Production, Any, // subsystems the gun targets
                 },
-                ClosestFirst = false, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
+                ClosestFirst = true, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
                 MinimumDiameter = 0, // 0 = unlimited, Minimum radius of threat to engage.
                 MaximumDiameter = 0, // 0 = unlimited, Maximum radius of threat to engage.
-                TopTargets = 4, // 0 = unlimited, max number of top targets to randomize between.
+                TopTargets = 0, // 0 = unlimited, max number of top targets to randomize between.
                 TopBlocks = 4, // 0 = unlimited, max number of blocks to randomize between
                 StopTrackingSpeed = 1000, // do not track target threats traveling faster than this speed
             },
@@ -79,7 +90,7 @@ namespace WeaponThread
                     MinElevation = -20,
                     MaxElevation = 80,
                     FixedOffset = false,
-                    InventorySize = 0.084f,
+                    InventorySize = 0.124f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -88,7 +99,7 @@ namespace WeaponThread
                     RotateBarrelAxis = 3,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = false,
+                    Debug = true,
                 },
                 Loading = new LoadingDef
                 {
@@ -151,7 +162,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = GatlingAmmos,
+            // Ammos = GatlingAmmos,
+			Ammos = new [] {
+                AmmoType1,
+				AmmoType2
+            },
         };
     }
 }

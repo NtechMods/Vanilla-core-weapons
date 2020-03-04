@@ -22,6 +22,8 @@ namespace WeaponThread
                         SubtypeId = "LargeMissileTurret",
                         AimPartId = "MissileTurretBarrels",
                         MuzzlePartId = "MissileTurretBarrels",
+                        AzimuthPartId = "MissileTurretBase1",
+                        ElevationPartId = "MissileTurretBarrels",
                     },
 
                 },
@@ -93,7 +95,7 @@ namespace WeaponThread
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = true,
+                    Debug = false,
                 },
                 Loading = new LoadingDef
                 {
@@ -156,11 +158,11 @@ namespace WeaponThread
                 },
             },
 
-            //Ammos = MissileAmmos,
 			Ammos = new [] {
-                AmmoType1
-						 
+                MissileAmmos
             },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

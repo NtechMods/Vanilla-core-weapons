@@ -22,6 +22,8 @@ namespace WeaponThread
                         SubtypeId = "LargeMissileLauncher",
                         AimPartId = "None",
                         MuzzlePartId = "None",
+                        ElevationPartId = "None",
+                        AzimuthPartId = "None"
                     },
 
                 },
@@ -169,7 +171,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = MissileAmmos,
+			Ammos = new [] {
+                MissileAmmos
+            },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

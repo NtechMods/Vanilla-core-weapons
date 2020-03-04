@@ -22,8 +22,8 @@ namespace WeaponThread
                         SubtypeId = "LargeInteriorTurret",
                         AimPartId = "",
                         MuzzlePartId = "InteriorTurretBase2",
-                        //AzimuthPartId = "InteriorTurretBase1",
-                        //ElevationPartId = "InteriorTurretBase2",
+                        AzimuthPartId = "InteriorTurretBase1",
+                        ElevationPartId = "InteriorTurretBase2",
                     },
 
                 },
@@ -81,7 +81,7 @@ namespace WeaponThread
                     MinElevation = -76,
                     MaxElevation = 90,
                     FixedOffset = false,
-                    InventorySize = 0.18f,
+                    InventorySize = 0.08f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -90,16 +90,16 @@ namespace WeaponThread
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = true,
+                    Debug = false,
                 },
                 Loading = new LoadingDef
                 {
-                    RateOfFire = 600,
+                    RateOfFire = 300,
                     BarrelSpinRate = 0, // visual only, 0 disables and uses RateOfFire
                     BarrelsPerShot = 1,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
-                    ReloadTime = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ReloadTime = 180, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     DelayUntilFire = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 1, //heat generated per shot
                     MaxHeat = 70000, //max heat before weapon enters cooldown (70% of max heat)
@@ -153,7 +153,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = GatlingAmmos,
+            Ammos = new [] {
+                GatlingAmmoType1
+            },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

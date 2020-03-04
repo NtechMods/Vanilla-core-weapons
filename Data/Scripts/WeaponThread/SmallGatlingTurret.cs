@@ -22,6 +22,8 @@ namespace WeaponThread
                         SubtypeId = "SmallGatlingTurret",
                         AimPartId = "GatlingTurretBase2",
                         MuzzlePartId = "GatlingBarrel",
+                        AzimuthPartId = "GatlingTurretBase1",
+                        ElevationPartId = "GatlingTurretBase2"
                     },
 
                 },
@@ -79,7 +81,7 @@ namespace WeaponThread
                     MinElevation = -10,
                     MaxElevation = 90,
                     FixedOffset = false,
-                    InventorySize = 0.084f,
+                    InventorySize = 0.360f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -151,7 +153,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = GatlingAmmos,
+			Ammos = new [] {
+                GatlingAmmoType2
+            },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

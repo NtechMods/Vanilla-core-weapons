@@ -80,7 +80,7 @@ namespace WeaponThread
                     MinElevation = -8,
                     MaxElevation = 90,
                     FixedOffset = false,
-                    InventorySize = 0.12f,
+                    InventorySize = 0.360f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -152,7 +152,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = MissileAmmos,
+			Ammos = new [] {
+                MissileAmmos
+            },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

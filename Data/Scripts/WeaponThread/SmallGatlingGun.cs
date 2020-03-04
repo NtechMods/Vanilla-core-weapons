@@ -22,6 +22,8 @@ namespace WeaponThread
                         SubtypeId = "SmallGatlingGun",
                         AimPartId = "Barrel",
                         MuzzlePartId = "Barrel",
+                        ElevationPartId = "None",
+                        AzimuthPartId = "None"
                     },
 
                 },
@@ -151,7 +153,11 @@ namespace WeaponThread
                 },
             },
 
-            Ammos = GatlingAmmos,
+			Ammos = new [] {
+                GatlingAmmoType2
+            },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

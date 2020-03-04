@@ -438,6 +438,9 @@ namespace WeaponThread
                     [ProtoMember(2)] internal int Fragments;
                     [ProtoMember(3)] internal float ForwardDegrees;
                     [ProtoMember(4)] internal float BackwardDegrees;
+                    [ProtoMember(5)] internal float Degrees;
+                    [ProtoMember(6)] internal bool Reverse;
+                    [ProtoMember(7)] internal bool RandomizeDir;
                 }
 
 

@@ -1,4 +1,5 @@
-﻿using static WeaponThread.WeaponStructure;
+﻿using VRageMath;
+using static WeaponThread.WeaponStructure;
 using static WeaponThread.WeaponStructure.WeaponDefinition;
 using static WeaponThread.WeaponStructure.WeaponDefinition.ModelAssignmentsDef;
 using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef;
@@ -11,13 +12,6 @@ namespace WeaponThread {
 		// Don't edit above this line
         WeaponDefinition LargeGatlingTurret => new WeaponDefinition
         {
-			
-			
-			
-			
-			
-			
-			
             Assignments = new ModelAssignmentsDef
             {
                 MountPoints = new[]
@@ -26,16 +20,11 @@ namespace WeaponThread {
                         SubtypeId = "LargeGatlingTurret",
                         AimPartId = "",
                         MuzzlePartId = "GatlingBarrel",
+                        AzimuthPartId = "GatlingTurretBase1",
+                        ElevationPartId = "GatlingTurretBase2",
                     },
 
                 },
-
-
-
-
-
-
-
                 Barrels = new []
                 {
                     "muzzle_projectile",
@@ -90,7 +79,7 @@ namespace WeaponThread {
                     MinElevation = -20,
                     MaxElevation = 80,
                     FixedOffset = false,
-                    InventorySize = 0.124f,
+                    InventorySize = 0.658f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -99,7 +88,7 @@ namespace WeaponThread {
                     RotateBarrelAxis = 3,
                     EnergyPriority = 0,
                     MuzzleCheck = false,
-                    Debug = true,
+                    Debug = false,
                 },
                 Loading = new LoadingDef
                 {
@@ -161,12 +150,12 @@ namespace WeaponThread {
                     },
                 },
             },
-
-            // Ammos = GatlingAmmos,
+       
 			Ammos = new [] {
-                AmmoType1,
-				AmmoType2
+                GatlingAmmoType2
             },
+            //Animations = AdvancedAnimation,
+            // Don't edit below this line
         };
     }
 }

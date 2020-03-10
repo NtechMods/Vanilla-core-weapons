@@ -11,7 +11,7 @@
       <SearchBlocks>false</SearchBlocks>
       <IsShipCategory>false</IsShipCategory>
       <IsBlockCategory>false</IsBlockCategory>
-      <IsToolCategory>true</IsToolCategory>
+      <IsToolCategory>false</IsToolCategory>
       <ItemIds>
         <string>LargeMissileLauncher</string>
         <string>SmallGatlingGun/(null)</string>

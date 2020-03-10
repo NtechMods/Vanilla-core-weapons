@@ -14,8 +14,8 @@
       <IsToolCategory>true</IsToolCategory>
       <ItemIds>
         <string>LargeMissileLauncher</string>
-        <string>SmallGatlingGun</string>
-        <string>SmallMissileLauncher</string>
+        <string>SmallGatlingGun/(null)</string>
+        <string>SmallMissileLauncher/(null)</string>
         <string>SmallRocketLauncherReload</string>
       </ItemIds>
     </Category>

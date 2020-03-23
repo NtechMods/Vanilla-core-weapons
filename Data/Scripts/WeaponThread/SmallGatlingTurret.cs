@@ -70,7 +70,7 @@ namespace WeaponThread
                     TurretAttached = true,
                     TurretController = true,
                     PrimaryTracking = true,
-                    LockOnFocus = true,
+                    LockOnFocus = false,
                 },
                 HardWare = new HardwareDef
                 {

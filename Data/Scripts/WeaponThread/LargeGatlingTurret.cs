@@ -27,7 +27,7 @@ namespace WeaponThread {
                 },
                 Barrels = new []
                 {
-                    "muzzle_projectile",
+                    "muzzle_projectile_001",
                 },
             },
             Targeting = new TargetingDef
@@ -72,8 +72,8 @@ namespace WeaponThread {
                 },
                 HardWare = new HardwareDef
                 {
-                    RotateRate = 0.03f,
-                    ElevateRate = 0.03f,
+                    RotateRate = 0.02f,
+                    ElevateRate = 0.02f,
                     MinAzimuth = -180,
                     MaxAzimuth = 180,
                     MinElevation = -20,
@@ -127,7 +127,7 @@ namespace WeaponThread {
                         Offset = Vector(x: 0, y: -1, z: 0),
                         Extras = new ParticleOptionDef
                         {
-                            Loop = true,
+                            Loop = false,
                             Restart = false,
                             MaxDistance = 200,
                             MaxDuration = 1,
@@ -136,9 +136,9 @@ namespace WeaponThread {
                     },
                     Barrel2 = new ParticleDef
                     {
-                        Name = "Muzzle_Flash_Large",//Muzzle_Flash_Large
+                        Name = "Muzzle_Flash_Large_Core",//Muzzle_Flash_Large
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
-                        Offset = Vector(x: 0, y: -1, z: 0),
+                        Offset = Vector(x: 0, y: 11, z: 0),
                         Extras = new ParticleOptionDef
                         {
                             Loop = false,

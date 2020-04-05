@@ -126,7 +126,7 @@ namespace WeaponThread
                     {
                         Name = "Smoke_LargeGunShot", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
-                        Offset = Vector(x: 0, y: -1, z: 0),
+                        Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
                         {
                             Loop = true,
@@ -138,9 +138,9 @@ namespace WeaponThread
                     },
                     Barrel2 = new ParticleDef
                     {
-                        Name = "Muzzle_Flash_Large",//Muzzle_Flash_Large
+                        Name = "Muzzle_Flash_Large_Core",//Muzzle_Flash_Large
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
-                        Offset = Vector(x: 0, y: -1, z: 0),
+                        Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
                         {
                             Loop = false,

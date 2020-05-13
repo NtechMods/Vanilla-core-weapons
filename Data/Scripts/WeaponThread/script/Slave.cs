@@ -49,6 +49,7 @@ namespace WeaponThread
             {
                 Log.CleanLine($"Compiling: {WeaponDefinitions[i].HardPoint.WeaponName}");
                 WeaponDefinitions[i].ModPath = ModContext.ModPath;
+
             }
             Storage = MyAPIGateway.Utilities.SerializeToBinary(WeaponDefinitions);
             Array.Clear(WeaponDefinitions, 0, WeaponDefinitions.Length);

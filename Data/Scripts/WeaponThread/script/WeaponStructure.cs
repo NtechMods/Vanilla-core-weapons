@@ -30,6 +30,7 @@ namespace WeaponThread
                     [ProtoMember(3)] internal string MuzzlePartId;
                     [ProtoMember(4)] internal string AzimuthPartId;
                     [ProtoMember(5)] internal string ElevationPartId;
+                    [ProtoMember(6)] internal string CameraPartId;
                 }
             }
 
@@ -72,13 +73,13 @@ namespace WeaponThread
                 [ProtoMember(12)] internal bool LockedSmartOnly;
             }
 
-
             [ProtoContract]
             public struct AnimationDef
             {
                 [ProtoMember(1)] internal PartAnimationSetDef[] WeaponAnimationSets;
                 [ProtoMember(2)] internal WeaponEmissive[] Emissives;
                 [ProtoMember(3)] internal string[] HeatingEmissiveParts;
+                [ProtoMember(4)] internal Dictionary<PartAnimationSetDef.EventTriggers, EventParticle[]> EventParticles;
 
 
                 [ProtoContract(IgnoreListHandling = true)]
@@ -122,6 +123,17 @@ namespace WeaponThread
                     [ProtoMember(4)] internal bool LeavePreviousOn;
                     [ProtoMember(5)] internal Vector4[] Colors;
                     [ProtoMember(6)] internal float[] IntensityRange;
+                }
+
+                [ProtoContract]
+                public struct EventParticle
+                {
+                    [ProtoMember(1)] internal string[] EmptyNames;
+                    [ProtoMember(2)] internal string[] MuzzleNames;
+                    [ProtoMember(3)] internal ParticleDef Particle;
+                    [ProtoMember(4)] internal uint StartDelay;
+                    [ProtoMember(5)] internal uint LoopDelay;
+                    [ProtoMember(6)] internal bool ForceStop;
                 }
 
                 [ProtoContract]

@@ -195,7 +195,7 @@ namespace WeaponThread
                                 MaxDistance = 500,
                                 MaxDuration = 1,
                                 Scale = 1,
-                                HitPlayChance = 0.1f,
+                                HitPlayChance = 1f,
                             },
                         },
                     },

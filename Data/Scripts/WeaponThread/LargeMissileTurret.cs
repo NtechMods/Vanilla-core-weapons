@@ -79,6 +79,7 @@ namespace WeaponThread
                 },
                 HardWare = new HardwareDef
                 {
+
                     RotateRate = 0.03f,
                     ElevateRate = 0.03f,
                     MinAzimuth = -180,

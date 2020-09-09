@@ -108,7 +108,7 @@ namespace WeaponThread
                     },
                     Detonation = new DetonateDef
                     {
-                        DetonateOnEnd = false,
+                        DetonateOnEnd = true,
                         ArmOnlyOnHit = false,
                         DetonationDamage = 0,
                         DetonationRadius = 2,
@@ -138,16 +138,16 @@ namespace WeaponThread
                     MaxLifeTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     AccelPerSec = 900f,
                     DesiredSpeed = 200,
-                    MaxTrajectory = 1000f,
+                    MaxTrajectory = 1500f,
                     FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
                     SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                     RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory
                     Smarts = new SmartsDef
                     {
                         Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
-                        Aggressiveness = 1f, // controls how responsive tracking is.
-                        MaxLateralThrust = 0.3f, // controls how sharp the trajectile may turn
-                        TrackingDelay = 1200, // Measured in Shape diameter units traveled.
+                        Aggressiveness = 0.1f, // controls how responsive tracking is.
+                        MaxLateralThrust = 0.05f, // controls how sharp the trajectile may turn
+                        TrackingDelay = 400, // Measured in Shape diameter units traveled.
                         MaxChaseTime = 2000, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                         OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
                     },

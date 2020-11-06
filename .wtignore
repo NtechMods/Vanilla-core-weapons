@@ -1,0 +1,42 @@
+# git and meta
+.git
+.gitattributes
+.gitignore
+*.md
+LICENSE
+
+# archives
+*.7z
+*.zip
+
+# logs
+*.log
+
+# model source
+*.fbx
+*.blockdef.xml
+*.xml
+*.hkt
+*.hkt.fbx
+*.hkt.mwm
+*.txt
+*.hkt.filter.log
+*.hkt.convert.log
+*.mwm.log
+*.psd
+
+#vs stuff
+*.sln
+*.csprog
+bin
+obj
+Properties
+
+# JetBrains IDE
+.idea
+
+# temp
+*.tmp
+
+# script
+*.bat

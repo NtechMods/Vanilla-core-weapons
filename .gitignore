@@ -24,6 +24,9 @@ bin
 obj
 Properties
 
+# JetBrains IDE
+.idea
+
 # temp
 *.tmp	
 

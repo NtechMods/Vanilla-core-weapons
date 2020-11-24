@@ -1,5 +1,7 @@
 ﻿using static WeaponThread.WeaponStructure.WeaponDefinition;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AmmoEjectionDef;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AmmoEjectionDef.SpawnType;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.ShapeDef.Shapes;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.GraphicDef;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.TrajectoryDef;
@@ -7,8 +9,12 @@ using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.TrajectoryDef
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.DamageScaleDef;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.DamageScaleDef.ShieldDef.ShieldType;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AreaDamageDef;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AreaDamageDef.EwarFieldsDef;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AreaDamageDef.EwarFieldsDef.PushPullDef.Force;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.AreaDamageDef.AreaEffectType;
 using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.GraphicDef.LineDef;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.GraphicDef.LineDef.Texture;
+using static WeaponThread.WeaponStructure.WeaponDefinition.AmmoDef.GraphicDef.LineDef.TracerBaseDef;
 namespace WeaponThread
 { // Don't edit above this line
     partial class Weapons
@@ -48,7 +54,8 @@ namespace WeaponThread
                     MaxIntegrity = 0f, // 0 = disabled, 1000 = any blocks with currently integrity above 1000 will be immune to damage.
                     DamageVoxels = false, // true = voxels are vulnerable to this weapon
                     SelfDamage = false, // true = allow self damage.
-
+                    HealthHitModifier = 1, // defaults to a value of 1, this setting modifies how much Health is subtracted from a projectile per hit (1 = per hit).
+                    VoxelHitModifier = -1,
                     // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
                     Characters = 0.2f,
                     Grids = new GridSizeDef
@@ -258,7 +265,7 @@ namespace WeaponThread
                 EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
                 BaseDamage = 150f,
                 Mass = 1f, // in kilograms
-                Health = 0, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
+                Health = 1, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
                 BackKickForce = 50f,
 
                 Shape = new ShapeDef //defines the collision shape of projectile, defaults line and visual Line Length if set to 0
@@ -284,7 +291,8 @@ namespace WeaponThread
                     MaxIntegrity = 0f, // 0 = disabled, 1000 = any blocks with currently integrity above 1000 will be immune to damage.
                     DamageVoxels = false, // true = voxels are vulnerable to this weapon
                     SelfDamage = false, // true = allow self damage.
-
+                    HealthHitModifier = 1, // defaults to a value of 1, this setting modifies how much Health is subtracted from a projectile per hit (1 = per hit).
+                    VoxelHitModifier = -1,
                     // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
                     Characters = 0.2f,
                     Grids = new GridSizeDef

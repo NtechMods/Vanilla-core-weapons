@@ -265,7 +265,7 @@ namespace WeaponThread
                 EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
                 BaseDamage = 150f,
                 Mass = 1f, // in kilograms
-                Health = 1, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
+                Health = 0, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
                 BackKickForce = 50f,
 
                 Shape = new ShapeDef //defines the collision shape of projectile, defaults line and visual Line Length if set to 0

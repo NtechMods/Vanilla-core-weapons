@@ -202,7 +202,7 @@ namespace WeaponThread
                                 MaxDistance = 500,
                                 MaxDuration = 1,
                                 Scale = 1,
-                                HitPlayChance = 0.1f,
+                                HitPlayChance = 0.8f,
                             },
                         },
                     },
@@ -215,8 +215,8 @@ namespace WeaponThread
                         {
                             Enable = true,
                             Length = 3f,
-                            Width = 0.05f,
-                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.9f, alpha: 1),
+                            Width = 0.06f,
+                            Color = Color(red: 0.9f, green: 0.7f, blue: 0.5f, alpha: 1),
                         },
                         Trail = new TrailDef
                         {

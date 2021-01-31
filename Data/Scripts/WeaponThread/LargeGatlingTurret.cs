@@ -131,7 +131,7 @@ namespace WeaponThread {
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
                         {
-                            Loop = false,
+                            Loop = true,
                             Restart = false,
                             MaxDistance = 200,
                             MaxDuration = 1,
@@ -145,7 +145,7 @@ namespace WeaponThread {
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
                         {
-                            Loop = false,
+                            Loop = true,
                             Restart = false,
                             MaxDistance = 200,
                             MaxDuration = 1,

@@ -453,7 +453,7 @@ namespace WeaponThread
                             Enable = true,
                             Length = 3f,
                             Width = 0.05f,
-                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.5f, alpha: 1),
+                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.5f, alpha: 4),
                         },
                         Trail = new TrailDef
                         {

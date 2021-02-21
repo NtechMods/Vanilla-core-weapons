@@ -65,9 +65,9 @@ namespace WeaponThread
                     },
                     Armor = new ArmorDef
                     {
-                        Armor = -1f,
-                        Light = -1f,
-                        Heavy = -1f,
+                        Armor = 0.05f,
+                        Light = 0.01f,
+                        Heavy = 0.8f,
                         NonArmor = 1f,
                     },
                     Shields = new ShieldDef
@@ -145,7 +145,7 @@ namespace WeaponThread
                     MaxLifeTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     AccelPerSec = 0f,
                     DesiredSpeed = 996,
-                    MaxTrajectory = 800f,
+                    MaxTrajectory = 1000f,
                     FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
                     SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                     RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory
@@ -303,8 +303,8 @@ namespace WeaponThread
                     Armor = new ArmorDef
                     {
                         Armor = -1f,
-                        Light = -1f,
-                        Heavy = -1f,
+                        Light = 0.9f,
+                        Heavy = 0.4f,
                         NonArmor = 1f,
                     },
                     Shields = new ShieldDef
@@ -381,8 +381,8 @@ namespace WeaponThread
                     TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     MaxLifeTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     AccelPerSec = 0f,
-                    DesiredSpeed = 400,
-                    MaxTrajectory = 800f,
+                    DesiredSpeed = 600,
+                    MaxTrajectory = 1000f,
                     FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
                     SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                     RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory
@@ -446,14 +446,14 @@ namespace WeaponThread
                     Lines = new LineDef
                     {
                         TracerMaterial = "ProjectileTrailLine", // WeaponLaser, ProjectileTrailLine, WarpBubble, etc..
-                        ColorVariance = Random(start: 5f, end: 10f), // multiply the color by random values within range.
+                        ColorVariance = Random(start: .5f, end: .6f), // multiply the color by random values within range.
                         WidthVariance = Random(start: 0f, end: 0.045f), // adds random value to default width (negatives shrinks width)
                         Tracer = new TracerBaseDef
                         {
                             Enable = true,
                             Length = 3f,
                             Width = 0.05f,
-                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.9f, alpha: 1),
+                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.5f, alpha: 4),
                         },
                         Trail = new TrailDef
                         {

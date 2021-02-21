@@ -65,10 +65,10 @@ namespace WeaponThread
                     },
                     Armor = new ArmorDef
                     {
-                        Armor = -1f,
-                        Light = -1f,
-                        Heavy = -1f,
-                        NonArmor = 1f,
+                        Armor = 1f,
+                        Light = 0.9f,
+                        Heavy = 0.7f,
+                        NonArmor = 1.2f,
                     },
                     Shields = new ShieldDef
                     {

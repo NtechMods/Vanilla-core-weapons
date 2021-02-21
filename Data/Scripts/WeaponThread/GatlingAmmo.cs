@@ -414,8 +414,8 @@ namespace WeaponThread
                         Ammo = new ParticleDef
                         {
                             Name = "", //ShipWelderArc
-                            Color = Color(red: 128, green: 0, blue: 0, alpha: 32),
-                            Offset = Vector(x: 0, y: -1, z: 0),
+                            Color = Color(red: 1, green: 1, blue: 0.5f, alpha: 32),
+                            Offset = Vector(x: 0, y: 0, z: 0),
                             Extras = new ParticleOptionDef
                             {
                                 Loop = true,
@@ -427,33 +427,33 @@ namespace WeaponThread
                         },
                         Hit = new ParticleDef
                         {
-                            Name = "MaterialHit_Metal",
+                            Name = "MaterialHit_Stone", //MaterialHit_Metal
                             ApplyToShield = true,
                             ShrinkByDistance = true,
                             Color = Color(red: 3, green: 2, blue: 1, alpha: 1),
                             Offset = Vector(x: 0, y: 0, z: 0),
                             Extras = new ParticleOptionDef
                             {
-                                Loop = false,
-                                Restart = false,
+                                Loop = true,
+                                Restart = true,
                                 MaxDistance = 500,
-                                MaxDuration = 1,
-                                Scale = 1,
-                                HitPlayChance = 0.1f,
+                                MaxDuration = 0.1f,
+                                Scale = 0.5f,
+                                HitPlayChance = 0.9f,
                             },
                         },
                     },
                     Lines = new LineDef
                     {
                         TracerMaterial = "ProjectileTrailLine", // WeaponLaser, ProjectileTrailLine, WarpBubble, etc..
-                        ColorVariance = Random(start: .5f, end: .6f), // multiply the color by random values within range.
+                        ColorVariance = Random(start: 0.5f, end: 2.6f), // multiply the color by random values within range.
                         WidthVariance = Random(start: 0f, end: 0.045f), // adds random value to default width (negatives shrinks width)
                         Tracer = new TracerBaseDef
                         {
                             Enable = true,
-                            Length = 3f,
-                            Width = 0.05f,
-                            Color = Color(red: 0.9f, green: 0.9f, blue: 0.5f, alpha: 4),
+                            Length = 2f,
+                            Width = 0.03f,
+                            Color = Color(red: 20.9f, green: 20.9f, blue: 10.5f, alpha: 10),
                         },
                         Trail = new TrailDef
                         {

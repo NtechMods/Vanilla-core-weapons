@@ -185,7 +185,7 @@ namespace WeaponThread
                                 Restart = false,
                                 MaxDistance = 5000,
                                 MaxDuration = 1,
-                                Scale = 0.25f,
+                                Scale = 1.00f,
                             },
                         },
                         Hit = new ParticleDef

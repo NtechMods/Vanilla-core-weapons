@@ -158,8 +158,7 @@ namespace WeaponThread
             },
 
             Ammos = new [] {
-                GatlingAmmoType3,
-                GatlingAmmoType1
+                GatlingAmmoType3
             },
             //Animations = AdvancedAnimation,
             // Don't edit below this line

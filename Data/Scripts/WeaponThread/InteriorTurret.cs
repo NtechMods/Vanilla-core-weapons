@@ -25,7 +25,7 @@ namespace WeaponThread
                         MuzzlePartId = "InteriorTurretBase2",
                         AzimuthPartId = "InteriorTurretBase1",
                         ElevationPartId = "InteriorTurretBase2",
-                        DurabilityMod = 1f,
+                        DurabilityMod = 0.5f,
                         IconName = "TestIcon.dds",
                     },
 
@@ -110,8 +110,8 @@ namespace WeaponThread
                     Cooldown = .95f, //percent of max heat to be under to start firing again after overheat accepts .2-.95
                     HeatSinkRate = 69000, //amount of heat lost per second
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
-                    ShotsInBurst = 0,
-                    DelayAfterBurst = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ShotsInBurst = 50,
+                    DelayAfterBurst = 30, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     FireFullBurst = false,
                 },
                 Audio = new HardPointAudioDef
@@ -158,6 +158,7 @@ namespace WeaponThread
             },
 
             Ammos = new [] {
+                GatlingAmmoType3,
                 GatlingAmmoType1
             },
             //Animations = AdvancedAnimation,

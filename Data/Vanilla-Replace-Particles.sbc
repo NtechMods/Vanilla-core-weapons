@@ -3441,9 +3441,9 @@
         </ParticleLight>
       </ParticleLights>
       <ParticleSounds />
-    </ParticleEffect>
+  </ParticleEffect>
 
-    <ParticleEffect xsi:type="MyObjectBuilder_ParticleEffect">
+  <ParticleEffect xsi:type="MyObjectBuilder_ParticleEffect">
       <Id>
         <TypeId>ParticleEffect</TypeId>
         <SubtypeId>Muzzle_Flash_Large_Core</SubtypeId>
@@ -5513,9 +5513,9 @@
         </ParticleLight>
       </ParticleLights>
       <ParticleSounds />
-    </ParticleEffect>
+  </ParticleEffect>
 
-    <ParticleEffect xsi:type="MyObjectBuilder_ParticleEffect">
+  <ParticleEffect xsi:type="MyObjectBuilder_ParticleEffect">
       <Id>
         <TypeId>ParticleEffect</TypeId>
         <SubtypeId>Muzzle_Flash_Core</SubtypeId>

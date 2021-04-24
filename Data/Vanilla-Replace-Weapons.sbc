@@ -150,6 +150,9 @@
       <AmmoMagazines>
         <AmmoMagazine Subtype="NATO_5p56x45mm" />
       </AmmoMagazines>
+      <AmmoMagazines>
+        <AmmoMagazine Subtype="RapidFireAutomaticRifleGun_Mag_50rd" />
+      </AmmoMagazines>
     </Weapon>
 	
   </Weapons>

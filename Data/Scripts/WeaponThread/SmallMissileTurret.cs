@@ -23,7 +23,7 @@ namespace WeaponThread
                         SubtypeId = "SmallMissileTurret",
                         AimPartId = "MissileTurretBarrels",
                         MuzzlePartId = "MissileTurretBarrels",
-                        DurabilityMod = 1f,
+                        DurabilityMod = 0.5f,
                         IconName = "TestIcon.dds",
                     },
 

@@ -25,7 +25,7 @@ namespace WeaponThread
                         MuzzlePartId = "GatlingBarrel",
                         AzimuthPartId = "GatlingTurretBase1",
                         ElevationPartId = "GatlingTurretBase2",
-                        DurabilityMod = 1f,
+                        DurabilityMod = 0.5f,
                         IconName = "TestIcon.dds",
                     },
 

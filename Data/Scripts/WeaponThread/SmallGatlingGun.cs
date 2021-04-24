@@ -25,7 +25,7 @@ namespace WeaponThread
                         MuzzlePartId = "Barrel",
                         ElevationPartId = "None",
                         AzimuthPartId = "None",
-                        DurabilityMod = 1f,
+                        DurabilityMod = 0.5f,
                         IconName = "TestIcon.dds",
                     },
 
@@ -158,6 +158,7 @@ namespace WeaponThread
 
 			Ammos = new [] {
                 GatlingAmmoType2
+
             },
             //Animations = AdvancedAnimation,
             // Don't edit below this line

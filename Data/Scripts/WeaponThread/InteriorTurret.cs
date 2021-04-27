@@ -142,7 +142,7 @@ namespace WeaponThread
                     },
                     Barrel2 = new ParticleDef
                     {
-                        Name = "Muzzle_Flash_Large",//Muzzle_Flash_Large
+                        Name = "Muzzle_Flash_Large_Core",//Muzzle_Flash_Large
                         Color = Color(red: 1, green: 0.7f, blue: 0.5f, alpha: 1),
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef

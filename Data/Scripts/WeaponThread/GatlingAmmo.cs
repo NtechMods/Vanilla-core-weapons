@@ -399,7 +399,7 @@ namespace WeaponThread
                 HealthHitModifier = 1, // defaults to a value of 1, this setting modifies how much Health is subtracted from a projectile per hit (1 = per hit).
                 VoxelHitModifier = -1,
                 // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
-                Characters = 0.2f,
+                Characters = 0.5f,
                 Grids = new GridSizeDef
                 {
                     Large = -1f,
@@ -608,7 +608,7 @@ namespace WeaponThread
             BaseDamage = 150f,
             Mass = 1.5f, // in kilograms
             Health = 0, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
-            BackKickForce = 1.5f,
+            BackKickForce = 0.5f,
 
             Shape = new ShapeDef //defines the collision shape of projectile, defaults line and visual Line Length if set to 0
             {
@@ -636,7 +636,7 @@ namespace WeaponThread
                 HealthHitModifier = 1, // defaults to a value of 1, this setting modifies how much Health is subtracted from a projectile per hit (1 = per hit).
                 VoxelHitModifier = -1,
                 // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
-                Characters = 1f,
+                Characters =  0.5f,
                 Grids = new GridSizeDef
                 {
                     Large = -1f,
@@ -644,9 +644,9 @@ namespace WeaponThread
                 },
                 Armor = new ArmorDef
                 {
-                    Armor = 0.05f,
-                    Light = 0.01f,
-                    Heavy = 0.8f,
+                    Armor = 0.3f,
+                    Light = 0.3f,
+                    Heavy = 0.1f,
                     NonArmor = 1f,
                 },
                 Shields = new ShieldDef
@@ -724,7 +724,7 @@ namespace WeaponThread
                 MaxLifeTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 AccelPerSec = 0f,
                 DesiredSpeed = 700,
-                MaxTrajectory = 1000f,
+                MaxTrajectory = 400f,
                 FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
                 SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                 RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory

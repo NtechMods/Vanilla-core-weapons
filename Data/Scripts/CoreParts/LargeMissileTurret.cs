@@ -115,7 +115,7 @@ namespace Scripts
                 },
                 Other = new OtherDef
                 {
-                    GridWeaponCap = 0,
+                    ConstructPartCap = 0,
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,

@@ -101,7 +101,7 @@ namespace Scripts
                 Shields = new ShieldDef
                 {
                     Modifier = -1f,
-                    Type = Energy,
+                    Type = Default,
                     BypassModifier = -1f,
                 },
                 // first true/false (ignoreOthers) will cause projectiles to pass through all blocks that do not match the custom subtypeIds.
@@ -333,18 +333,6 @@ namespace Scripts
                 FloatingHitSound = "",
                 HitPlayChance = 1,
                 HitPlayShield = true,
-            },
-            Ejection = new EjectionDef
-            {
-                Type = Particle, // Particle or Item (Inventory Component)
-                Speed = 100f, // Speed inventory is ejected from in dummy direction
-                SpawnChance = 0.5f, // chance of triggering effect (0 - 1)
-                CompDef = new ComponentDef
-                {
-                    ItemName = "", //InventoryComponent name
-                    ItemLifeTime = 0, // how long item should exist in world
-                    Delay = 0, // delay in ticks after shot before ejected
-                }
             }, // Don't edit below this line
 
         };

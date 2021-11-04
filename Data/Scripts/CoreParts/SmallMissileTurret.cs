@@ -60,7 +60,7 @@ namespace Scripts
             },
             HardPoint = new HardPointDef
             {
-                WeaponName = "SmallMissileTurret", // name of weapon in terminal
+                PartName = "SmallMissileTurret", // name of weapon in terminal
                 DeviateShotAngle = 0.1f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
                 AimLeadingPrediction = Advanced, // Off, Basic, Accurate, Advanced
@@ -110,7 +110,7 @@ namespace Scripts
                 },
                 Other = new OtherDef
                 {
-                    GridWeaponCap = 0,
+                    ConstructPartCap = 0,
                     RotateBarrelAxis = 0,
                     EnergyPriority = 0,
                     MuzzleCheck = false,

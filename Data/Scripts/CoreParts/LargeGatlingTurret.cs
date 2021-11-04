@@ -89,10 +89,10 @@ namespace Scripts
                     ElevateRate = 0.04f,
                     MinAzimuth = -180,
                     MaxAzimuth = 180,
-                    MinElevation = -20,
+                    MinElevation = -40,
                     MaxElevation = 80,
                     HomeAzimuth = 0, // Default resting rotation angle
-                    HomeElevation = 0, // Default resting elevation
+                    HomeElevation = -40, // Default resting elevation
                     FixedOffset = false,
                     InventorySize = 0.658f,
                     Offset = Vector(x: 0, y: 0, z: 0),
@@ -108,7 +108,7 @@ namespace Scripts
                 },
                 Other = new OtherDef
                 {
-                    GridWeaponCap = 0,
+                    ConstructPartCap = 0,
                     RotateBarrelAxis = 3,
                     EnergyPriority = 0,
                     MuzzleCheck = false,

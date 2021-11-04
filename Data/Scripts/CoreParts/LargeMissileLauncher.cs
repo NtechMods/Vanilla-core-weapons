@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
-using static WeaponThread.WeaponStructure;
-using static WeaponThread.WeaponStructure.WeaponDefinition;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef;
-using static WeaponThread.WeaponStructure.WeaponDefinition.ModelAssignmentsDef;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef.HardwareDef.ArmorState;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef.Prediction;
-using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.BlockTypes;
-using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.Threat;
+﻿using static Scripts.Structure;
+using static Scripts.Structure.WeaponDefinition;
+using static Scripts.Structure.WeaponDefinition.ModelAssignmentsDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.Prediction;
+using static Scripts.Structure.WeaponDefinition.TargetingDef.BlockTypes;
+using static Scripts.Structure.WeaponDefinition.TargetingDef.Threat;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.HardwareDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.HardwareDef.HardwareType;
 
-namespace WeaponThread
-{   // Don't edit above this line
-    partial class Weapons
+namespace Scripts
+{
+    partial class Parts
     {
-        WeaponDefinition SmallRocketLauncherReload => new WeaponDefinition
+        // Don't edit above this line
+        WeaponDefinition LargeMissileLauncher => new WeaponDefinition
         {
             Assignments = new ModelAssignmentsDef
             {
@@ -20,8 +21,8 @@ namespace WeaponThread
                 {
                     new MountPointDef
                     {
-                        SubtypeId = "SmallRocketLauncherReload",
-                        AimPartId = "",
+                        SubtypeId = "LargeMissileLauncher",
+                        SpinPartId = "None",
                         MuzzlePartId = "None",
                         ElevationPartId = "None",
                         AzimuthPartId = "None",
@@ -36,7 +37,23 @@ namespace WeaponThread
 					"muzzle_missile_002",
 					"muzzle_missile_003",
 					"muzzle_missile_004",
+					"muzzle_missile_005",
+					"muzzle_missile_006",
+					"muzzle_missile_007",					
+                    "muzzle_missile_008",
+					"muzzle_missile_009",
+					"muzzle_missile_010",
+					"muzzle_missile_011",
+					"muzzle_missile_012",
+					"muzzle_missile_013",
+					"muzzle_missile_014",
+					"muzzle_missile_015",
+					"muzzle_missile_016",
+					"muzzle_missile_017",
+					"muzzle_missile_018",
+					"muzzle_missile_019",
                 },
+                Ejector = "",
             },
             Targeting = new TargetingDef
             {
@@ -57,10 +74,10 @@ namespace WeaponThread
             },
             HardPoint = new HardPointDef
             {
-                WeaponName = "SmallRocketLauncherReload", // name of weapon in terminal
+                WeaponName = "LargeMissileLauncher", // name of weapon in terminal
                 DeviateShotAngle = 0.1f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
-                AimLeadingPrediction = Advanced, // Off, Basic, Accurate, Advanced
+                AimLeadingPrediction = Off, // Off, Basic, Accurate, Advanced
                 DelayCeaseFire = 10, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
 
                 Ui = new UiDef
@@ -87,7 +104,7 @@ namespace WeaponThread
                     MinElevation = 0,
                     MaxElevation = 0,
                     FixedOffset = false,
-                    InventorySize = 0.24f,
+                    InventorySize = 1.14f,
                     Offset = Vector(x: 0, y: 0, z: 0),
                 },
                 Other = new OtherDef
@@ -112,8 +129,8 @@ namespace WeaponThread
                     Cooldown = .95f, //percent of max heat to be under to start firing again after overheat accepts .2-.95
                     HeatSinkRate = 10, //amount of heat lost per second
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
-                    ShotsInBurst = 4,
-                    DelayAfterBurst = 120, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                    ShotsInBurst = 19,
+                    DelayAfterBurst = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     FireFullBurst = false,
                 },
                 Audio = new HardPointAudioDef

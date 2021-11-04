@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
-using static WeaponThread.WeaponStructure;
-using static WeaponThread.WeaponStructure.WeaponDefinition;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef;
-using static WeaponThread.WeaponStructure.WeaponDefinition.ModelAssignmentsDef;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef.HardwareDef.ArmorState;
-using static WeaponThread.WeaponStructure.WeaponDefinition.HardPointDef.Prediction;
-using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.BlockTypes;
-using static WeaponThread.WeaponStructure.WeaponDefinition.TargetingDef.Threat;
+﻿using static Scripts.Structure;
+using static Scripts.Structure.WeaponDefinition;
+using static Scripts.Structure.WeaponDefinition.ModelAssignmentsDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.Prediction;
+using static Scripts.Structure.WeaponDefinition.TargetingDef.BlockTypes;
+using static Scripts.Structure.WeaponDefinition.TargetingDef.Threat;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.HardwareDef;
+using static Scripts.Structure.WeaponDefinition.HardPointDef.HardwareDef.HardwareType;
 
-namespace WeaponThread
-{   // Don't edit above this line
-    partial class Weapons
+namespace Scripts
+{
+    partial class Parts
     {
-        WeaponDefinition LargeInteriorTurret => new WeaponDefinition
+        // Don't edit above this line
+        WeaponDefinition  LargeInteriorTurret => new WeaponDefinition
         {
             Assignments = new ModelAssignmentsDef
             {
@@ -21,7 +22,7 @@ namespace WeaponThread
                     new MountPointDef
                     {
                         SubtypeId = "LargeInteriorTurret",
-                        AimPartId = "",
+                        SpinPartId = "",
                         MuzzlePartId = "InteriorTurretBase2",
                         AzimuthPartId = "InteriorTurretBase1",
                         ElevationPartId = "InteriorTurretBase2",
@@ -30,35 +31,39 @@ namespace WeaponThread
                     },
 
                 },
-                Barrels = new []
+                Muzzles = new []
                 {
                     "muzzle_projectile",
                 },
+                Ejector = "",
             },
-            Targeting = new TargetingDef
+            Targeting = new TargetingDef  
             {
-                Threats = new[]
-                {
-                    Grids, Characters, Projectiles, Meteors,
+                Threats = new[] {
+                    Grids, Characters, Projectiles, Meteors, // threats percieved automatically without changing menu settings
                 },
-                SubSystems = new[]
-                {
-                    Thrust, Utility, Offense, Power, Production, Any, // subsystems the gun targets
+                SubSystems = new[] {
+                    Thrust, Utility, Offense, Power, Production, Any, // Subsystem targeting priority: Offense, Utility, Power, Production, Thrust, Jumping, Steering, Any
                 },
                 ClosestFirst = true, // tries to pick closest targets first (blocks on grids, projectiles, etc...).
+                IgnoreDumbProjectiles = false, // Don't fire at non-smart projectiles.
+                LockedSmartOnly = false, // Only fire at smart projectiles that are locked on to parent grid.
                 MinimumDiameter = 0, // 0 = unlimited, Minimum radius of threat to engage.
                 MaximumDiameter = 0, // 0 = unlimited, Maximum radius of threat to engage.
+                MaxTargetDistance = 0, // 0 = unlimited, Maximum target distance that targets will be automatically shot at.
+                MinTargetDistance = 0, // 0 = unlimited, Min target distance that targets will be automatically shot at.
                 TopTargets = 4, // 0 = unlimited, max number of top targets to randomize between.
                 TopBlocks = 4, // 0 = unlimited, max number of blocks to randomize between
-                StopTrackingSpeed = 1000, // do not track target threats traveling faster than this speed
+                StopTrackingSpeed = 500, // do not track target threats traveling faster than this speed
             },
             HardPoint = new HardPointDef
             {
-                WeaponName = "LargeInteriorTurret", // name of weapon in terminal
+                PartName = "LargeInteriorTurret", // name of weapon in terminal
                 DeviateShotAngle = 0.3f,
                 AimingTolerance = 4f, // 0 - 180 firing angle
                 AimLeadingPrediction = Accurate, // Off, Basic, Accurate, Advanced
                 DelayCeaseFire = 10, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
+                AddToleranceToTracking = false,
 
                 Ui = new UiDef
                 {
@@ -74,6 +79,8 @@ namespace WeaponThread
                     TurretController = true,
                     PrimaryTracking = true,
                     LockOnFocus = false,
+                    SuppressFire = false, // If enabled, weapon can only be fired manually.
+                    OverrideLeads = false, // Disable target leading on fixed weapons, or allow it for turrets.
                 },
                 HardWare = new HardwareDef
                 {
@@ -84,9 +91,20 @@ namespace WeaponThread
                     MaxAzimuth = 180,
                     MinElevation = -76,
                     MaxElevation = 90,
+                    HomeAzimuth = 0, // Default resting rotation angle
+                    HomeElevation = 0, // Default resting elevation
                     FixedOffset = false,
                     InventorySize = 0.08f,
                     Offset = Vector(x: 0, y: 0, z: 0),
+                    Type = BlockWeapon, // BlockWeapon, HandWeapon, Phantom 
+                    CriticalReaction = new CriticalDef
+                    {
+                        Enable = false, // Enables Warhead behaviour
+                        DefaultArmedTimer = 120,
+                        PreArmed = true,
+                        TerminalControls = true,
+                        AmmoRound = "", // Optional. If specified, the warhead will always use this ammo on detonation rather than the currently selected ammo.
+                    },
                 },
                 Other = new OtherDef
                 {
@@ -95,11 +113,13 @@ namespace WeaponThread
                     EnergyPriority = 0,
                     MuzzleCheck = false,
                     Debug = false,
+                    RestrictionRadius = 2, // Meters, radius of sphere disable this gun if another is present
+                    CheckInflatedBox = false, // if true, the bounding box of the gun is expanded by the RestrictionRadius
+                    CheckForAnyWeapon = false, // if true, the check will fail if ANY gun is present, false only looks for this subtype
                 },
                 Loading = new LoadingDef
                 {
                     RateOfFire = 300,
-                    BarrelSpinRate = 0, // visual only, 0 disables and uses RateOfFire
                     BarrelsPerShot = 1,
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
@@ -113,6 +133,11 @@ namespace WeaponThread
                     ShotsInBurst = 50,
                     DelayAfterBurst = 30, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     FireFullBurst = false,
+                    GiveUpAfterBurst = false,
+                    BarrelSpinRate = 0, // Visual only, 0 disables and uses RateOfFire.
+                    DeterministicSpin = false, // Spin barrel position will always be relative to initial / starting positions (spin will not be as smooth).
+                    SpinFree = false, // Spin barrel while not firing.
+                    StayCharged = false, // Will start recharging whenever power cap is not full.
                 },
                 Audio = new HardPointAudioDef
                 {
@@ -123,10 +148,11 @@ namespace WeaponThread
                     NoAmmoSound = "",
                     HardPointRotationSound = "WepTurretGatlingRotate",
                     BarrelRotationSound = "",
+                    FireSoundEndDelay = 0, // Measured in game ticks(6 = 100ms, 60 = 1 seconds, etc..).
                 },
                 Graphics = new HardPointParticleDef
                 {
-                    Barrel1 = new ParticleDef
+                    Effect1 = new ParticleDef
                     {
                         Name = "Smoke_LargeGunShot", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
@@ -140,7 +166,7 @@ namespace WeaponThread
                             Scale = 1.0f,
                         },
                     },
-                    Barrel2 = new ParticleDef
+                    Effect2 = new ParticleDef
                     {
                         Name = "Muzzle_Flash_Large_Core",//Muzzle_Flash_Large
                         Color = Color(red: 1, green: 0.7f, blue: 0.5f, alpha: 1),

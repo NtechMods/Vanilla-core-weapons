@@ -136,6 +136,7 @@ namespace Scripts
                     FireFullBurst = false,
                     GiveUpAfterBurst = false,
                     BarrelSpinRate = 700, // Visual only, 0 disables and uses RateOfFire.
+                    MagsToLoad = 4, // Number of physical magazines to consume on reload.
                     DeterministicSpin = false, // Spin barrel position will always be relative to initial / starting positions (spin will not be as smooth).
                     SpinFree = true, // Spin barrel while not firing.
                     StayCharged = false, // Will start recharging whenever power cap is not full.
@@ -155,7 +156,7 @@ namespace Scripts
                 {
                     Effect1 = new ParticleDef
                     {
-                        Name = "Smoke_LargeGunShot", // Smoke_LargeGunShot
+                        Name = "", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
@@ -177,7 +178,7 @@ namespace Scripts
                             Loop = true,
                             Restart = false,
                             MaxDistance = 100,
-                            MaxDuration = 1,
+                            MaxDuration = 0.2f,
                             Scale = 1f,
                         },
                     },

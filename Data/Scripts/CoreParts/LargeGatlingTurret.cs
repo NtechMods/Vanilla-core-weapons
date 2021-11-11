@@ -124,7 +124,6 @@ namespace Scripts
                     TrajectilesPerBarrel = 1, // Number of Trajectiles per barrel per fire event.
                     SkipBarrels = 0,
                     ReloadTime = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    MagsToLoad = 3, // Number of physical magazines to consume on reload.
                     DelayUntilFire = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 1, //heat generated per shot
                     MaxHeat = 100000, //max heat before weapon enters cooldown (70% of max heat)
@@ -136,6 +135,7 @@ namespace Scripts
                     FireFullBurst = false,
                     GiveUpAfterBurst = false,
                     BarrelSpinRate = 700, // Visual only, 0 disables and uses RateOfFire.
+                    MagsToLoad = 4, // Number of physical magazines to consume on reload.
                     DeterministicSpin = false, // Spin barrel position will always be relative to initial / starting positions (spin will not be as smooth).
                     SpinFree = false, // Spin barrel while not firing.
                     StayCharged = false, // Will start recharging whenever power cap is not full.
@@ -155,7 +155,7 @@ namespace Scripts
                 {
                     Effect1 = new ParticleDef
                     {
-                        Name = "Smoke_LargeGunShot_Core", // Smoke_LargeGunShot
+                        Name = "", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
@@ -169,15 +169,15 @@ namespace Scripts
                     },
                     Effect2 = new ParticleDef
                     {
-                        Name = "Muzzle_Flash_Large_Core",//Muzzle_Flash_Large_Core, Muzzle_Flash_Large
+                        Name = "Muzzle_Flash_Large",//Muzzle_Flash_Large_Core, Muzzle_Flash_Large
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef
                         {
-                            Loop = true,
-                            Restart = false,
+                            Loop = false,
+                            Restart = true,
                             MaxDistance = 200,
-                            MaxDuration = 1,
+                            MaxDuration = 0.2f,
                             Scale = 1f,
                         },
                     },

@@ -92,7 +92,7 @@ namespace Scripts
                     MinElevation = -40,
                     MaxElevation = 80,
                     HomeAzimuth = 0, // Default resting rotation angle
-                    HomeElevation = -40, // Default resting elevation
+                    HomeElevation = 0, // Default resting elevation
                     FixedOffset = false,
                     InventorySize = 0.658f,
                     Offset = Vector(x: 0, y: 0, z: 0),
@@ -113,7 +113,7 @@ namespace Scripts
                     EnergyPriority = 0,
                     MuzzleCheck = false,
                     Debug = false,
-                    RestrictionRadius = 2, // Meters, radius of sphere disable this gun if another is present
+                    RestrictionRadius = 0, // Meters, radius of sphere disable this gun if another is present
                     CheckInflatedBox = false, // if true, the bounding box of the gun is expanded by the RestrictionRadius
                     CheckForAnyWeapon = false, // if true, the check will fail if ANY gun is present, false only looks for this subtype
                 },
@@ -155,7 +155,7 @@ namespace Scripts
                 {
                     Effect1 = new ParticleDef
                     {
-                        Name = "Smoke_LargeGunShot", // Smoke_LargeGunShot
+                        Name = "Smoke_LargeGunShot_Core", // Smoke_LargeGunShot
                         Color = Color(red: 1, green: 1, blue: 1, alpha: 1),
                         Offset = Vector(x: 0, y: 0, z: 0),
                         Extras = new ParticleOptionDef

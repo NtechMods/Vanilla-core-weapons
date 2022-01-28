@@ -29,7 +29,7 @@ namespace Scripts
             AmmoRound = "NATO_Ammo",
             HybridRound = false, //AmmoMagazine based weapon with energy cost
             EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
-            BaseDamage = 39.5f,
+            BaseDamage = 150f,
             Mass = 1f, // in kilograms
             Health = 0, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
             BackKickForce = 20.2f,
@@ -395,10 +395,10 @@ namespace Scripts
                 SelfDamage = false, // true = allow self damage.
                 DamageType = new DamageTypes
                 {
-                    Base = Energy, //Kinetic
-                    AreaEffect = Energy,
-                    Detonation = Energy,
-                    Shield = Energy,
+                    Base = Kinetic, //Kinetic
+                    AreaEffect = Kinetic,
+                    Detonation = Kinetic,
+                    Shield = Kinetic,
                 },
                 // modifier values: -1 = disabled (higher performance), 0 = no damage, 0.01 = 1% damage, 2 = 200% damage.
                 Characters = 0.5f,
@@ -523,7 +523,7 @@ namespace Scripts
                 DesiredSpeed = 700,
                 MaxTrajectory = 1000f,
                 FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
-                GravityMultiplier = 0.3f, // Gravity multiplier, influences the trajectory of the projectile, value greater than 0 to enable.
+                GravityMultiplier = 0.0f, // Gravity multiplier, influences the trajectory of the projectile, value greater than 0 to enable.
                 SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                 RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory
                 MaxTrajectoryTime = 0, // How long the weapon must fire before it reaches MaxTrajectory.
@@ -665,10 +665,10 @@ namespace Scripts
         {
 
             AmmoMagazine = "RapidFireAutomaticRifleGun_Mag_50rd",
-            AmmoRound = "GatlingAmmoType3",
+            AmmoRound = "GatlingAmmoType3", // Name of ammo in terminal, should be different for each ammo type used by the same weapon.
             HybridRound = false, //AmmoMagazine based weapon with energy cost
             EnergyCost = 0.00000000001f, //(((EnergyCost * DefaultDamage) * ShotsPerSecond) * BarrelsPerShot) * ShotsPerBarrel
-            BaseDamage = 150f,
+            BaseDamage = 90f,
             Mass = 1.5f, // in kilograms
             Health = 0, // 0 = disabled, otherwise how much damage it can take from other trajectiles before dying.
             BackKickForce = 0.5f,
@@ -842,7 +842,7 @@ namespace Scripts
                 DesiredSpeed = 700,
                 MaxTrajectory = 400f,
                 FieldTime = 0, // 0 is disabled, a value causes the projectile to come to rest, spawn a field and remain for a time (Measured in game ticks, 60 = 1 second)
-                GravityMultiplier = 0.3f, // Gravity multiplier, influences the trajectory of the projectile, value greater than 0 to enable.
+                GravityMultiplier = 0.0f, // Gravity multiplier, influences the trajectory of the projectile, value greater than 0 to enable.
                 SpeedVariance = Random(start: 0, end: 0), // subtracts value from DesiredSpeed
                 RangeVariance = Random(start: 0, end: 0), // subtracts value from MaxTrajectory
                 MaxTrajectoryTime = 0, // How long the weapon must fire before it reaches MaxTrajectory.

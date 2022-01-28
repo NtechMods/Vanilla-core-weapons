@@ -150,8 +150,8 @@ namespace Scripts
                     DegradeRof = false, // progressively lower rate of fire after 80% heat threshold (80% of max heat)
                     ShotsInBurst = 19,
                     DelayAfterBurst = 360, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    FireFullBurst = false,
-                    GiveUpAfterBurst = false,
+                    FireFull = false,
+                    GiveUpAfter = false,
                     BarrelSpinRate = 0, // Visual only, 0 disables and uses RateOfFire.
                     MagsToLoad = 19, // Number of physical magazines to consume on reload.
                     DeterministicSpin = false, // Spin barrel position will always be relative to initial / starting positions (spin will not be as smooth).

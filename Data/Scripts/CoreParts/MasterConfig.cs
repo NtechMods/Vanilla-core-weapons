@@ -1,27 +1,34 @@
-﻿namespace Scripts
+﻿
+namespace Scripts
 {
     partial class Parts
     {
         internal Parts()
         {
-            // file convention: Name.cs - See Example.cs file for weapon property details.
+            // naming convention: WeaponDefinition Name
             //
-            // Enable your config files using the follow syntax, don't include the ".cs" extension:
-            // ConfigFiles(Your1stConfigFile, Your2ndConfigFile, Your3rdConfigFile);
-
+            // Enable your definitions using the follow syntax:
+            // PartDefinitions(Your1stDefinition, Your2ndDefinition, Your3rdDefinition);
+            // PartDefinitions includes both weapons and phantoms
             PartDefinitions(LargeGatlingTurret,
-                        LargeMissileTurret,
-                        SmallMissileTurret,
-                        LargeMissileLauncher,
-                        SmallGatlingGun,
-                        LargeInteriorTurret,
-                        SmallMissileLauncher,
-                        SmallGatlingTurret,
-                        SmallRocketLauncherReload);
-            ArmorDefinitions();
-            SupportDefinitions();
-            UpgradeDefinitions();
+                            SmallGatlingGun,
+                            SmallGatlingTurret,
+                            LargeMissileLauncher,
+                            LargeMissileTurret,
+                            SmallMissileLauncher,
+                            SmallRocketLauncherReload,
+                            SmallMissileTurret,
+                            LargeInteriorTurret,
+                            SmallBlockAutocannon,
+                            AutoCannonTurret,
+                            LargeBlockAssaultCannonTurret,
+                            SmallBlockAssaultCannon,
+                            SmallBlockAssaultCannonTurret,
+                            LargeBlockArtillery,
+                            LargeBlockArtilleryTurret,
+                            LargeBlockRailgun,
+                            SmallBlockRailgun
+                            );
         }
     }
 }
-

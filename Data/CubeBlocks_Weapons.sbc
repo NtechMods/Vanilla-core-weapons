@@ -94,9 +94,13 @@
                         <Key>Base2</Key>
                         <Value>AutocannonTurret_Base1/AutocannonTurret_Barrel</Value>
                     </item>
+                    <item>
+                        <Key>Barrel</Key>
+                        <Value>AutocannonTurret_Base1/AutocannonTurret_Barrel</Value>
+                    </item>
                 </dictionary>
             </SubpartPairing>
-            <MuzzleProjectileDummyName>muzzle_missile_001</MuzzleProjectileDummyName>
+            <MuzzleProjectileDummyName>muzzle_projectile</MuzzleProjectileDummyName>
             <CameraDummyName>muzzle_projectile</CameraDummyName>
         </Definition>
 
@@ -194,7 +198,7 @@
                     </item>
                 </dictionary>
             </SubpartPairing>
-            <MuzzleProjectileDummyName>muzzle_missile_001</MuzzleProjectileDummyName>
+            <MuzzleProjectileDummyName>muzzle_projectile</MuzzleProjectileDummyName>
             <CameraDummyName>muzzle_projectile</CameraDummyName>
         </Definition>
         

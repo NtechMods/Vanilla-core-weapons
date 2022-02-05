@@ -456,7 +456,7 @@ namespace Scripts {
                     TurretController = false, // Whether this weapon can physically control the turret's movement. Turrets Need this set to True.
                     PrimaryTracking = false, // For multiweapons: whether this weapon should designate targets for other weapons on the platform without their own tracking.
                     LockOnFocus = false, // If enabled, weapon will only fire at targets that have been HUD selected AND locked onto by pressing Numpad 0.
-                    SuppressFire = false, // If enabled, weapon can only be fired manually.
+                    SuppressFire = true, // If enabled, weapon can only be fired manually.
                     OverrideLeads = false, // Disable target leading on fixed weapons, or allow it for turrets.
                 },
                 HardWare = new HardwareDef
@@ -501,7 +501,7 @@ namespace Scripts {
                     TrajectilesPerBarrel = 1, // Number of projectiles per muzzle per fire event.
                     SkipBarrels = 0, // Number of muzzles to skip after each fire event.
                     ReloadTime = 60, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    MagsToLoad = 1, // Number of physical magazines to consume on reload.
+                    MagsToLoad = 4, // Number of physical magazines to consume on reload.
                     DelayUntilFire = 0, // How long the weapon waits before shooting after being told to fire. Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 0, // Heat generated per shot.
                     MaxHeat = 100, // Max heat before weapon enters cooldown (70% of max heat).
@@ -632,7 +632,7 @@ namespace Scripts {
                     TurretController = false, // Whether this weapon can physically control the turret's movement. Turrets Need this set to True.
                     PrimaryTracking = false, // For multiweapons: whether this weapon should designate targets for other weapons on the platform without their own tracking.
                     LockOnFocus = false, // If enabled, weapon will only fire at targets that have been HUD selected AND locked onto by pressing Numpad 0.
-                    SuppressFire = false, // If enabled, weapon can only be fired manually.
+                    SuppressFire = true, // If enabled, weapon can only be fired manually.
                     OverrideLeads = false, // Disable target leading on fixed weapons, or allow it for turrets.
                 },
                 HardWare = new HardwareDef
@@ -645,7 +645,7 @@ namespace Scripts {
                     MaxElevation = 0,
                     HomeAzimuth = 0, // Default resting rotation angle
                     HomeElevation = 0, // Default resting elevation
-                    InventorySize = 0.24f, // Inventory capacity in kL.
+                    InventorySize = 0.245f, // Inventory capacity in kL.
                     IdlePower = 0.001f, // Constant base power draw in MW.
                     FixedOffset = false, // Deprecated.
                     Offset = Vector(x: 0, y: 0, z: 0), // Offsets the aiming/firing line of the weapon, in metres.
@@ -677,7 +677,7 @@ namespace Scripts {
                     TrajectilesPerBarrel = 1, // Number of projectiles per muzzle per fire event.
                     SkipBarrels = 0, // Number of muzzles to skip after each fire event.
                     ReloadTime = 60, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    MagsToLoad = 1, // Number of physical magazines to consume on reload.
+                    MagsToLoad = 4, // Number of physical magazines to consume on reload.
                     DelayUntilFire = 0, // How long the weapon waits before shooting after being told to fire. Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     HeatPerShot = 0, // Heat generated per shot.
                     MaxHeat = 100, // Max heat before weapon enters cooldown (70% of max heat).

@@ -84,7 +84,7 @@
             <TargetingGroups>
                 <string>Weapons</string>
             </TargetingGroups>
-            <SubpartPairing>
+            <!--<SubpartPairing>
                 <dictionary>
                     <item>
                         <Key>Base1</Key>
@@ -99,9 +99,9 @@
                         <Value>AutocannonTurret_Base1/AutocannonTurret_Barrel</Value>
                     </item>
                 </dictionary>
-            </SubpartPairing>
+            </SubpartPairing>-->
             <MuzzleProjectileDummyName>muzzle_projectile</MuzzleProjectileDummyName>
-            <CameraDummyName>muzzle_projectile</CameraDummyName>
+            <CameraDummyName>camera</CameraDummyName>
         </Definition>
 
         <Definition xsi:type="MyObjectBuilder_LargeTurretBaseDefinition">
@@ -186,7 +186,7 @@
             <TargetingGroups>
                 <string>Weapons</string>
             </TargetingGroups>
-            <SubpartPairing>
+            <!--<SubpartPairing>
                 <dictionary>
                     <item>
                         <Key>Base1</Key>
@@ -197,9 +197,9 @@
                         <Value>AutocannonTurret_Base1/AutocannonTurret_Barrel</Value>
                     </item>
                 </dictionary>
-            </SubpartPairing>
+            </SubpartPairing>-->
             <MuzzleProjectileDummyName>muzzle_projectile</MuzzleProjectileDummyName>
-            <CameraDummyName>muzzle_projectile</CameraDummyName>
+            <CameraDummyName>camera</CameraDummyName>
         </Definition>
         
         <Definition Enabled="false">

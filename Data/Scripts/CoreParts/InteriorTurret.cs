@@ -160,7 +160,7 @@ namespace Scripts {
                         {
                             Loop = true, // Set this to the same as in the particle sbc!
                             Restart = true, // Whether to end a looping effect instantly when firing stops.
-                            Scale = 1f, // Scale of effect.
+                            Scale = 3f, // Scale of effect.
                         },
                     },
                     Effect2 = new ParticleDef
@@ -172,13 +172,14 @@ namespace Scripts {
                         {
                             Loop = true, // Set this to the same as in the particle sbc!
                             Restart = false,
-                            Scale = 1f,
+                            Scale = 3f,
                         },
                     },
                 },
             },
             Ammos = new[] {
-                InteriorAmmo, // Must list all primary, shrapnel, and pattern ammos.
+                InteriorAmmo,
+                InteriorAmmoOld // Must list all primary, shrapnel, and pattern ammos.
             },
             //Animations = Weapon75_Animation,
             //Upgrades = UpgradeModules,

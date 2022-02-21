@@ -24,14 +24,14 @@ namespace Scripts
                            ForceStop = false,
                            Particle = new ParticleDef
                            {
-                               Name = "Muzzle_Flash_RailgunLarge", //Particle subtypeID
+                               Name = "Muzzle_Flash_RailgunLargeVaRe", //Particle subtypeID
                                Color = Color(red: 25, green: 25, blue: 25, alpha: 1), //This is redundant as recolouring is no longer supported.
                                Extras = new ParticleOptionDef //do your particle colours in your particle file instead.
                                {
-                                   Loop = false, //Should match your particle definition.
+                                   Loop = true, //Should match your particle definition.
                                    Restart = false,
                                    MaxDistance = 1000, //meters
-                                   MaxDuration = 120, //ticks 60 = 1 second
+                                   MaxDuration = 0, //ticks 60 = 1 second
                                    Scale = 1, //How chunky the particle is.
                                }
                            }
@@ -57,14 +57,14 @@ namespace Scripts
                            ForceStop = false,
                            Particle = new ParticleDef
                            {
-                               Name = "Muzzle_Flash_RailgunSmall", //Particle subtypeID
+                               Name = "Muzzle_Flash_RailgunSmallVaRe", //Particle subtypeID
                                Color = Color(red: 25, green: 25, blue: 25, alpha: 1), //This is redundant as recolouring is no longer supported.
                                Extras = new ParticleOptionDef //do your particle colours in your particle file instead.
                                {
-                                   Loop = false, //Should match your particle definition.
+                                   Loop = true, //Should match your particle definition.
                                    Restart = false,
                                    MaxDistance = 1000, //meters
-                                   MaxDuration = 30, //ticks 60 = 1 second
+                                   MaxDuration = 0, //ticks 60 = 1 second
                                    Scale = 1, //How chunky the particle is.
                                }
                            }

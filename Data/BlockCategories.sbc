@@ -40,8 +40,50 @@
                 <string>LargeMissileTurret/AutoCannonTurret</string>
                 <string>ConveyorSorter/LargeRailgun</string>
                 <string>ConveyorSorter/SmallRailgun</string>
+                <string>InteriorTurret/LargeInteriorTurret</string>
+                <string>LargeGatlingTurret/(null)</string>
+                <string>LargeMissileTurret/(null)</string>
+                <string>LargeGatlingTurret/SmallGatlingTurret</string>
+                <string>LargeMissileTurret/SmallMissileTurret</string>
+                <string>SmallMissileLauncher/LargeMissileLauncher</string>
+                <string>SmallGatlingGun/(null)</string>
+                <string>SmallGatlingGun/SmallGatlingGunWarfare2</string>
+                <string>SmallGatlingGun/SmallBlockAutocannon</string>
+                <string>SmallMissileLauncher/(null)</string>
+                <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+                <string>SmallMissileLauncher/SmallMissileLauncherWarfare2</string>
+                <string>SmallMissileLauncherReload/SmallBlockMediumCalibreGun</string>
+                <string>SmallMissileLauncher/LargeBlockLargeCalibreGun</string>
+                <string>LargeMissileTurret/LargeCalibreTurret</string>
+                <string>LargeMissileTurret/LargeBlockMediumCalibreTurret</string>
+                <string>LargeMissileTurret/SmallBlockMediumCalibreTurret</string>
             </ItemIds>
         </Category>
 
+        <Category xsi:type="MyObjectBuilder_GuiBlockCategoryDefinition">
+            <Id>
+                <TypeId>GuiBlockCategoryDefinition</TypeId>
+                <SubtypeId/>
+            </Id>
+            <DisplayName>DisplayName_Category_ShipWeapons</DisplayName>
+            <Name>ShipWeapons</Name>
+            <SearchBlocks>false</SearchBlocks>
+            <IsShipCategory>true</IsShipCategory>
+            <IsBlockCategory>false</IsBlockCategory>
+            <IsToolCategory>true</IsToolCategory>
+            <ItemIds>
+                <string>SmallMissileLauncher/LargeMissileLauncher</string>
+                <string>SmallGatlingGun/(null)</string>
+                <string>SmallGatlingGun/SmallGatlingGunWarfare2</string>
+                <string>SmallGatlingGun/SmallBlockAutocannon</string>
+                <string>SmallMissileLauncher/(null)</string>
+                <string>SmallMissileLauncherReload/SmallRocketLauncherReload</string>
+                <string>SmallMissileLauncher/SmallMissileLauncherWarfare2</string>
+                <string>SmallMissileLauncherReload/LargeRailgun</string>
+                <string>SmallMissileLauncherReload/SmallRailgun</string>
+                <string>SmallMissileLauncherReload/SmallBlockMediumCalibreGun</string>
+                <string>SmallMissileLauncher/LargeBlockLargeCalibreGun</string>
+            </ItemIds>
+        </Category>
     </CategoryClasses>
 </Definitions>

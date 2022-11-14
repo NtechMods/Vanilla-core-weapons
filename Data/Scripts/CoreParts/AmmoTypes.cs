@@ -9,9 +9,14 @@ using static Scripts.Structure.WeaponDefinition.AmmoDef.FragmentDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.PatternDef.PatternModes;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.FragmentDef.TimedSpawnDef.PointTypes;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef.ApproachDef.Conditions;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef.ApproachDef.UpRelativeTo;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef.ApproachDef.StartFailure;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef.ApproachDef.VantagePointRelativeTo;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.TrajectoryDef.GuidanceType;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.DamageScaleDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.DamageScaleDef.ShieldDef.ShieldType;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.DamageScaleDef.DeformDef.DeformTypes;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.AreaOfDamageDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.AreaOfDamageDef.Falloff;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.AreaOfDamageDef.AoeShape;
@@ -22,6 +27,7 @@ using static Scripts.Structure.WeaponDefinition.AmmoDef.EwarDef.PushPullDef.Forc
 using static Scripts.Structure.WeaponDefinition.AmmoDef.GraphicDef.LineDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.GraphicDef.LineDef.TracerBaseDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.GraphicDef.LineDef.Texture;
+using static Scripts.Structure.WeaponDefinition.AmmoDef.GraphicDef.DecalDef;
 using static Scripts.Structure.WeaponDefinition.AmmoDef.DamageScaleDef.DamageTypes.Damage;
 
 namespace Scripts
@@ -77,7 +83,8 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
-                    GroupSize = 5, // Number of spawns in each group
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
+                    GroupSize = 5, // Number of spawns in each groupGroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
             },
@@ -132,6 +139,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -273,15 +285,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -297,6 +413,23 @@ namespace Scripts
                 ModelName = "", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -423,6 +556,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 1f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -461,6 +596,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -516,6 +652,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -657,15 +798,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -681,6 +926,23 @@ namespace Scripts
                 ModelName = "", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -807,6 +1069,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 1f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -845,6 +1109,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -900,6 +1165,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -1038,18 +1308,122 @@ namespace Scripts
                 MaxTrajectoryTime = 0, // How long the weapon must fire before it reaches MaxTrajectory.
                 Smarts = new SmartsDef
                 {
-                    Inaccuracy = 0.5f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
+                    Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -1065,6 +1439,23 @@ namespace Scripts
                 ModelName = "", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -1191,6 +1582,8 @@ namespace Scripts
             Health = 2, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 0f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -1229,6 +1622,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -1284,6 +1678,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -1409,7 +1808,7 @@ namespace Scripts
             Trajectory = new TrajectoryDef
             {
                 Guidance = Smart, // None, Remote, TravelTo, Smart, DetectTravelTo, DetectSmart, DetectFixed
-                TargetLossDegree = 15, // Degrees, Is pointed forward
+                TargetLossDegree = 75, // Degrees, Is pointed forward
                 TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 MaxLifeTime = 1200, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..). time begins at 0 and time must EXCEED this value to trigger "time > maxValue". Please have a value for this, It stops Bad things.
                 AccelPerSec = 200, // Meters Per Second. This is the spawning Speed of the Projectile, and used by turning.
@@ -1422,18 +1821,122 @@ namespace Scripts
                 MaxTrajectoryTime = 0, // How long the weapon must fire before it reaches MaxTrajectory.
                 Smarts = new SmartsDef
                 {
-                    Inaccuracy = 2.5f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
-                    Aggressiveness = 1, // controls how responsive tracking is.
-                    MaxLateralThrust = 0.2f, // controls how sharp the trajectile may turn
-                    TrackingDelay = 75, // Measured in Shape diameter units traveled.
+                    Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
+                    Aggressiveness = 1f, // controls how responsive tracking is.
+                    MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
+                    TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
-                    OverideTarget = false, // when set to true ammo picks its own target, does not use hardpoint's.
+                    OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 1, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
-                    OffsetRatio = 0.0025f, // The ratio to offset the random direction (0 to 1) 
-                    OffsetTime = 120, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                    OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
+                    OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 70, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -1449,6 +1952,23 @@ namespace Scripts
                 ModelName = "Models\\Weapons\\Projectile_Missile.mwm", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = true,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -1575,6 +2095,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 250f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -1613,6 +2135,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -1668,6 +2191,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -1809,15 +2337,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -1833,6 +2465,23 @@ namespace Scripts
                 ModelName = "", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -1959,6 +2608,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 10000f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -1997,6 +2648,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -2052,6 +2704,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -2193,15 +2850,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -2217,6 +2978,23 @@ namespace Scripts
                 ModelName = "Models\\Weapons\\MediumCalibreShell.mwm", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -2343,6 +3121,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 30000f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -2381,6 +3161,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -2436,6 +3217,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -2577,15 +3363,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -2601,6 +3491,23 @@ namespace Scripts
                 ModelName = "Models\\Weapons\\LargeCalibreShell.mwm", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -2727,6 +3634,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 24000f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -2765,6 +3674,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -2820,6 +3730,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -2961,15 +3876,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -2985,6 +4004,23 @@ namespace Scripts
                 ModelName = "Models\\Weapons\\RailgunAmmoLarge.mwm", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef
@@ -3111,6 +4147,8 @@ namespace Scripts
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 600f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself.
+                   //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
+			       //If greater than cube integrity it will remove the cube upon firing, without causing deformation (makes it look like the whole "block" flew away)
             HardPointUsable = true, // Whether this is a primary ammo type fired directly by the turret. Set to false if this is a shrapnel ammoType and you don't want the turret to be able to select it directly.
             EnergyMagazineSize = 0, // For energy weapons, how many shots to fire before reloading.
             IgnoreWater = false, // Whether the projectile should be able to penetrate water when using WaterMod.
@@ -3149,6 +4187,7 @@ namespace Scripts
                     ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = true, // Start fragment direction pointing at Target
                     PointType = Predict, // Point accuracy, Direct, Lead (always fire), Predict (only fire if it can hit)
+                    DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
                     GroupSize = 5, // Number of spawns in each group
                     GroupDelay = 120, // Delay between each group.
                 },
@@ -3204,6 +4243,11 @@ namespace Scripts
                     AreaEffect = Kinetic,
                     Detonation = Kinetic,
                     Shield = Kinetic, // Damage against shields is currently all of one type per projectile. Shield Bypass Weapons, always Deal Energy regardless of this line
+                },
+                Deform = new DeformDef
+                {
+                    DeformType = HitBlock,
+                    DeformDelay = 30,
                 },
                 Custom = new CustomScalesDef
                 {
@@ -3345,15 +4389,119 @@ namespace Scripts
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 1f, // controls how responsive tracking is.
                     MaxLateralThrust = 0.5, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0, // helps influence how the projectile steers. 
                     TrackingDelay = 0, // Measured in Shape diameter units traveled.
+                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = true, // when set to true ammo picks its own target, does not use hardpoint's.
+                    CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
                     MaxTargets = 0, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = false, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
+                },
+                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                {
+                    new ApproachDef
+                    {
+                        Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 1000, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
+                        UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
+                        AdjustUpDir = true, // adjust upDir relative to set condition overtime
+                        VantagePoint = Surface, // Surface, Target, Shooter, Origin, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false, // Updated the approach vantage point as it moves/changes.
+                        AngleOffset = 0, // value 0 - 1, rotates the Updir
+                        LeadDistance = 40, // Add additional "lead" in meters to the trajectory (project in the future), this will be applied even before TrackingDistance is met. 
+                        PushLeadByTravelDistance = true, // the follow lead position will move in its point direction by an amount equal to the projectiles travel distance.
+                        TrackingDistance = 100, // Minimum travel distance before projectile begins racing to target
+                        DesiredElevation = 100, // The desired elevation relative to vantagepoint 
+                        AdjustElevation = Surface, // Desired elevation adjusts in response relative changes between the proejctile and monitor variables.
+                        AccelMulti = 1.5, // Modify default acceleration by this factor
+                        SpeedCapMulti = 0.5, // Limit max speed to this factor, must keep this value BELOW default maxspeed (1).
+                        AdjustDestinationPosition = false, // End conditions relative to the target position will shift as the target moves
+                        CanExpireOnceStarted = false, // This stages values will continue to apply until the end conditions are met.
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef // if blank it will use default, must be a default version for this to be useable. 
+                        {
+                            Name = "", 
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound" // if blank it will use default, must be a default version for this to be useable. 
+                    },
+                    new ApproachDef
+                    {
+                        Failure = Wait,
+                        OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
+                        StartCondition1 = Lifetime,
+                        Start1Value = 0,
+                        StartCondition2 = Ignore, 
+                        Start2Value = 0,
+                        EndCondition1 = DistanceFromTarget,
+                        End1Value = 10,
+                        EndCondition2 = Ignore,
+                        End2Value = 0,
+                        UpDirection = RelativeToGravity,
+                        AdjustUpDir = true,
+                        VantagePoint = Surface, // Surface, Target, Shooter, MidPoint (between target and shooter)
+                        AdjustVantagePoint = false,
+                        AngleOffset = 0.5,
+                        LeadDistance = 5,
+                        PushLeadByTravelDistance = false,
+                        TrackingDistance = 10,
+                        DesiredElevation = 10,
+                        AdjustElevation = Target,
+                        AccelMulti = 1,
+                        SpeedCapMulti = 200,
+                        AdjustDestinationPosition = true,
+                        CanExpireOnceStarted = false,
+                        AlternateModel = "", // Define only if you want to switch to an alternate model in this phase
+                        AlternateParticle = new ParticleDef
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        StartParticle = new ParticleDef // Optional particle to play when this stage begins
+                        {
+                            Name = "",
+                            Offset = Vector(x: 0, y: 0, z: 0),
+                            DisableCameraCulling = true,// If not true will not cull when not in view of camera, be careful with this and only use if you know you need it
+                            Extras = new ParticleOptionDef
+                            {
+                                Scale = 1,
+                            },
+                        },
+                        AlternateSound = "BoosterStageSound"
+                    },
                 },
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
@@ -3369,6 +4517,23 @@ namespace Scripts
                 ModelName = "Models\\Weapons\\RailgunAmmo.mwm", // Model Path goes here.  "\\Models\\Ammo\\Starcore_Arrow_Missile_Large"
                 VisualProbability = 1f, // %
                 ShieldHitDraw = false,
+                Decals = new DecalDef
+                {
+                    MaxAge = 3600,
+                    Map = new[]
+                    {
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Metal",
+                            DecalMaterial = "GunBullet",
+                        },
+                        new TextureMapDef
+                        {
+                            HitMaterial = "Glass",
+                            DecalMaterial = "GunBullet",
+                        },
+                    },
+                },
                 Particles = new AmmoParticleDef
                 {
                     Ammo = new ParticleDef

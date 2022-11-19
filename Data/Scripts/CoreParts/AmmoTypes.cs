@@ -298,7 +298,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -398,7 +398,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -811,7 +811,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -911,7 +911,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -1324,7 +1324,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -1424,7 +1424,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -1808,7 +1808,7 @@ namespace Scripts
             Trajectory = new TrajectoryDef
             {
                 Guidance = Smart, // None, Remote, TravelTo, Smart, DetectTravelTo, DetectSmart, DetectFixed
-                TargetLossDegree = 75, // Degrees, Is pointed forward
+                TargetLossDegree = 25, // Degrees, Is pointed forward
                 TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 MaxLifeTime = 1200, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..). time begins at 0 and time must EXCEED this value to trigger "time > maxValue". Please have a value for this, It stops Bad things.
                 AccelPerSec = 200, // Meters Per Second. This is the spawning Speed of the Projectile, and used by turning.
@@ -1837,18 +1837,18 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
                         Failure = MoveToPrevious, // Wait, MoveToPrevious, MoveToNext, ForceReset -- A failure is when the end condition is reached without having met the start condition. 
                         OnFailureRevertTo = -1, // -1 to reset to BEFORE the for approach stage was activated.  First stage is 0, second is 1, etc...
-                        StartCondition1 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
-                        Start1Value = 60, // both conditions are evaluated before activation, use Ignore to skip
+                        StartCondition1 = Spawn, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        Start1Value = 5, // both conditions are evaluated before activation, use Ignore to skip
                         StartCondition2 = Ignore, // Ignore, Spawn, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
                         Start2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
-                        EndCondition1 = DesiredElevation, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
-                        End1Value = 70, // both conditions are evaluated before activation, use Ignore to skip
+                        EndCondition1 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
+                        End1Value = 0, // both conditions are evaluated before activation, use Ignore to skip
                         EndCondition2 = Ignore, // Ignore, DistanceFromTarget, Lifetime, MinTravelRequired, DesiredElevation (DO NOT set con1 and con2 to same value)
                         End2Value = 0, // both conditions are evaluated before activation, use Ignore to skip
                         UpDirection = RelativeToGravity, // RelativeToBlock, RelativeToGravity, TargetDirection, TargetVelocity,
@@ -1937,7 +1937,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -2350,7 +2350,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -2450,7 +2450,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -2863,7 +2863,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -2963,7 +2963,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -3376,7 +3376,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -3476,7 +3476,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -3889,7 +3889,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -3989,7 +3989,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,
@@ -4402,7 +4402,7 @@ namespace Scripts
                     OffsetRatio = 0.05f, // The ratio to offset the random direction (0 to 1) 
                     OffsetTime = 60, // how often to offset degree, measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..)
                 },
-                Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
+                /*Approaches = new [] // These approaches move forward and backward in order, once the end condition of the last one is reached it will revert to default behavior.
                 {
                     new ApproachDef
                     {
@@ -4502,7 +4502,7 @@ namespace Scripts
                         },
                         AlternateSound = "BoosterStageSound"
                     },
-                },
+                }, */
                 Mines = new MinesDef  // Note: This is being investigated. Please report to Github, any issues.
                 {
                     DetectRadius = 0,

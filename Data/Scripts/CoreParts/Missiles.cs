@@ -456,7 +456,7 @@ namespace Scripts {
                     TurretController = false, // Whether this weapon can physically control the turret's movement. Turrets Need this set to True.
                     PrimaryTracking = false, // For multiweapons: whether this weapon should designate targets for other weapons on the platform without their own tracking.
                     LockOnFocus = false, // If enabled, weapon will only fire at targets that have been HUD selected AND locked onto by pressing Numpad 0.
-                    SuppressFire = true, // If enabled, weapon can only be fired manually.
+                    SuppressFire = false, // If enabled, weapon can only be fired manually.
                     OverrideLeads = false, // Disable target leading on fixed weapons, or allow it for turrets.
                 },
                 HardWare = new HardwareDef
@@ -632,7 +632,7 @@ namespace Scripts {
                     TurretController = false, // Whether this weapon can physically control the turret's movement. Turrets Need this set to True.
                     PrimaryTracking = false, // For multiweapons: whether this weapon should designate targets for other weapons on the platform without their own tracking.
                     LockOnFocus = false, // If enabled, weapon will only fire at targets that have been HUD selected AND locked onto by pressing Numpad 0.
-                    SuppressFire = true, // If enabled, weapon can only be fired manually.
+                    SuppressFire = false, // If enabled, weapon can only be fired manually.
                     OverrideLeads = false, // Disable target leading on fixed weapons, or allow it for turrets.
                 },
                 HardWare = new HardwareDef

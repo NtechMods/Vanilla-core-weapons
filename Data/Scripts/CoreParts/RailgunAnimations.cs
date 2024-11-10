@@ -4,6 +4,7 @@ using static Scripts.Structure.WeaponDefinition.AnimationDef;
 using static Scripts.Structure.WeaponDefinition.AnimationDef.PartAnimationSetDef.EventTriggers;
 using static Scripts.Structure.WeaponDefinition.AnimationDef.RelMove.MoveType;
 using static Scripts.Structure.WeaponDefinition.AnimationDef.RelMove;
+using static Scripts.Structure.WeaponDefinition.AnimationDef.PartAnimationSetDef.ResetConditions;
 namespace Scripts
 { // Don't edit above this line
     partial class Parts

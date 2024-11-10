@@ -43,8 +43,12 @@
                 <string>InteriorTurret/LargeInteriorTurret</string>
                 <string>LargeGatlingTurret/(null)</string>
                 <string>LargeMissileTurret/(null)</string>
+                <string>LargeGatlingTurret/LargeGatlingTurretReskin</string>
+                <string>LargeMissileTurret/LargeMissileTurretReskin</string>
                 <string>LargeGatlingTurret/SmallGatlingTurret</string>
                 <string>LargeMissileTurret/SmallMissileTurret</string>
+                <string>LargeGatlingTurret/SmallGatlingTurretReskin</string>
+                <string>LargeMissileTurret/SmallMissileTurretReskin</string>
                 <string>SmallMissileLauncher/LargeMissileLauncher</string>
                 <string>SmallGatlingGun/(null)</string>
                 <string>SmallGatlingGun/SmallGatlingGunWarfare2</string>

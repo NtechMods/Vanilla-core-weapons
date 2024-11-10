@@ -34,6 +34,17 @@
                 <AmmoMagazine Subtype="Energy" />
             </AmmoMagazines>
         </Weapon>
+        
+        <Weapon>
+            <Id>
+                <TypeId>WeaponDefinition</TypeId>
+                <SubtypeId>LargeMissileTurretReskin</SubtypeId>
+            </Id>
+            <ProjectileAmmoData />
+            <AmmoMagazines>
+                <AmmoMagazine Subtype="Energy" />
+            </AmmoMagazines>
+        </Weapon>
 
         <Weapon>
             <Id>
@@ -104,6 +115,17 @@
         <Weapon>
             <Id>
                 <TypeId>WeaponDefinition</TypeId>
+                <SubtypeId>SmallMissileTurretReskin</SubtypeId>
+            </Id>
+            <ProjectileAmmoData />
+            <AmmoMagazines>
+                <AmmoMagazine Subtype="Energy" />
+            </AmmoMagazines>
+        </Weapon>
+
+        <Weapon>
+            <Id>
+                <TypeId>WeaponDefinition</TypeId>
                 <SubtypeId>GatlingGun</SubtypeId>
             </Id>
             <ProjectileAmmoData />		
@@ -137,7 +159,29 @@
         <Weapon>
             <Id>
                 <TypeId>WeaponDefinition</TypeId>
+                <SubtypeId>LargeGatlingTurretReskin</SubtypeId>
+            </Id>
+            <ProjectileAmmoData />
+            <AmmoMagazines>
+                <AmmoMagazine Subtype="Energy" />
+            </AmmoMagazines>
+        </Weapon>
+
+        <Weapon>
+            <Id>
+                <TypeId>WeaponDefinition</TypeId>
                 <SubtypeId>SmallGatlingTurret</SubtypeId>
+            </Id>
+            <ProjectileAmmoData />
+            <AmmoMagazines>
+                <AmmoMagazine Subtype="Energy" />
+            </AmmoMagazines>
+        </Weapon>
+
+        <Weapon>
+            <Id>
+                <TypeId>WeaponDefinition</TypeId>
+                <SubtypeId>SmallGatlingTurretReskin</SubtypeId>
             </Id>
             <ProjectileAmmoData />
             <AmmoMagazines>

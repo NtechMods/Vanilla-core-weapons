@@ -29,9 +29,13 @@
             <Description>Description_BlockGroup_TurretGroup</Description>
             <Blocks>
                 <Block Type="MyObjectBuilder_LargeGatlingTurret" Subtype="" />
+                <Block Type="MyObjectBuilder_LargeGatlingTurret" Subtype="LargeGatlingTurretReskin" />
                 <Block Type="MyObjectBuilder_LargeGatlingTurret" Subtype="SmallGatlingTurret" />
+                <Block Type="MyObjectBuilder_LargeGatlingTurret" Subtype="SmallGatlingTurretReskin" />
                 <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="" />
+                <Block Type="MyObjectBuilder_LargeGatlingTurret" Subtype="SmallMissileTurretReskin" />
                 <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="SmallMissileTurret" />
+                <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="SmallMissileTurretReskin" />
                 <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="LargeCalibreTurret" />
                 <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="LargeBlockMediumCalibreTurret" />
                 <Block Type="MyObjectBuilder_LargeMissileTurret" Subtype="SmallBlockMediumCalibreTurret" />

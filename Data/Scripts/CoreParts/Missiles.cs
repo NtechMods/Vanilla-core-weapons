@@ -593,7 +593,7 @@ namespace Scripts
                     "muzzle_missile_006",
                 },
                 Ejector = "", // Optional; empty from which to eject "shells" if specified.
-                Scope = "muzzle_missile_001", // Where line of sight checks are performed from. Must be clear of block collision.
+                Scope = "camera", // Where line of sight checks are performed from. Must be clear of block collision.
             },
             Targeting = new TargetingDef
             {
@@ -771,7 +771,7 @@ namespace Scripts
                     "muzzle_missile_006",
                 },
                 Ejector = "", // Optional; empty from which to eject "shells" if specified.
-                Scope = "muzzle_missile_001", // Where line of sight checks are performed from. Must be clear of block collision.
+                Scope = "camera", // Where line of sight checks are performed from. Must be clear of block collision.
             },
             Targeting = new TargetingDef
             {

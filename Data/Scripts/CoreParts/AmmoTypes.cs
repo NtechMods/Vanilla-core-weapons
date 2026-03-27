@@ -1813,7 +1813,7 @@ namespace Scripts
             Trajectory = new TrajectoryDef
             {
                 Guidance = Smart, // None, Remote, TravelTo, Smart, DetectTravelTo, DetectSmart, DetectFixed
-                TargetLossDegree = 25, // Degrees, Is pointed forward
+                TargetLossDegree = 170, // Degrees, Is pointed forward
                 TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 MaxLifeTime = 1200, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..). time begins at 0 and time must EXCEED this value to trigger "time > maxValue". Please have a value for this, It stops Bad things.
                 AccelPerSec = 200, // Meters Per Second. This is the spawning Speed of the Projectile, and used by turning.
@@ -1828,14 +1828,14 @@ namespace Scripts
                 {
                     Inaccuracy = 0f, // 0 is perfect, hit accuracy will be a random num of meters between 0 and this value.
                     Aggressiveness = 2f, // controls how responsive tracking is.
-                    MaxLateralThrust = 0.5f, // controls how sharp the trajectile may turn
-                    NavAcceleration = 0.5f, // helps influence how the projectile steers. 
+                    MaxLateralThrust = 0.8f, // controls how sharp the trajectile may turn
+                    NavAcceleration = 0.8f, // helps influence how the projectile steers. 
                     TrackingDelay = 10, // Measured in Shape diameter units traveled.
-                    AccelClearance = false, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
+                    AccelClearance = true, // Setting this to true will prevent smart acceleration until it is clear of the grid and tracking delay has been met (free fall).
                     MaxChaseTime = 0, // Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                     OverideTarget = false, // when set to true ammo picks its own target, does not use hardpoint's.
                     CheckFutureIntersection = false, // Utilize obstacle avoidance for drones
-                    MaxTargets = 1, // Number of targets allowed before ending, 0 = unlimited
+                    MaxTargets = 3, // Number of targets allowed before ending, 0 = unlimited
                     NoTargetExpire = true, // Expire without ever having a target at TargetLossTime
                     Roam = false, // Roam current area after target loss
                     KeepAliveAfterTargetLoss = false, // Whether to stop early death of projectile on target loss
